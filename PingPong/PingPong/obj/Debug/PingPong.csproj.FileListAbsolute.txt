@@ -1,0 +1,21 @@
+C:\Users\User\Desktop\Studium\Objektorientiertes Programmieren\PingPong\PingPong\bin\Debug\PingPong.exe.config
+C:\Users\User\Desktop\Studium\Objektorientiertes Programmieren\PingPong\PingPong\bin\Debug\PingPong.exe
+C:\Users\User\Desktop\Studium\Objektorientiertes Programmieren\PingPong\PingPong\bin\Debug\PingPong.pdb
+C:\Users\User\Desktop\Studium\Objektorientiertes Programmieren\PingPong\PingPong\obj\Debug\PingPong.csproj.AssemblyReference.cache
+C:\Users\User\Desktop\Studium\Objektorientiertes Programmieren\PingPong\PingPong\obj\Debug\PingPong.Properties.Resources.resources
+C:\Users\User\Desktop\Studium\Objektorientiertes Programmieren\PingPong\PingPong\obj\Debug\PingPong.csproj.GenerateResource.cache
+C:\Users\User\Desktop\Studium\Objektorientiertes Programmieren\PingPong\PingPong\obj\Debug\PingPong.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\Studium\Objektorientiertes Programmieren\PingPong\PingPong\obj\Debug\PingPong.exe
+C:\Users\User\Desktop\Studium\Objektorientiertes Programmieren\PingPong\PingPong\obj\Debug\PingPong.pdb
+E:\PingPong\PingPong\bin\Debug\PingPong.exe.config
+E:\PingPong\PingPong\bin\Debug\PingPong.exe
+E:\PingPong\PingPong\bin\Debug\PingPong.pdb
+E:\PingPong\PingPong\obj\Debug\PingPong.csproj.AssemblyReference.cache
+E:\PingPong\PingPong\obj\Debug\PingPong.csproj.SuggestedBindingRedirects.cache
+E:\PingPong\PingPong\obj\Debug\PingPong.Properties.Resources.resources
+E:\PingPong\PingPong\obj\Debug\PingPong.csproj.GenerateResource.cache
+E:\PingPong\PingPong\obj\Debug\PingPong.csproj.CoreCompileInputs.cache
+E:\PingPong\PingPong\obj\Debug\PingPong.exe
+E:\PingPong\PingPong\obj\Debug\PingPong.pdb
+D:\PingPong\PingPong\obj\Debug\PingPong.exe
+D:\PingPong\PingPong\obj\Debug\PingPong.pdb
