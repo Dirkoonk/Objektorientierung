@@ -33,7 +33,8 @@ class Gegner : public Objekte{ // Kann schieﬂen (evtl. Nur am Bildrand)
 
 class GameWindow : public Gosu::Window
 {
-	
+	std::unique_ptr<Gosu::Image> background_image;
+
 public:
 //
 //
@@ -41,6 +42,9 @@ public:
 		: Window(Gosu::screen_width(),Gosu::screen_height(),true)
 	{
 		set_caption("Tanktastic");
+
+		std::string filename = Gosu::resource_prefix() + "media/Strasse.png.png";
+		background_image.reset(new Gosu::Image(filename, Gosu::IF_TILEABLE));
 
 		//std::string filename = Gosu::resource_prefix() + "media/Stasse.png"
 	}
