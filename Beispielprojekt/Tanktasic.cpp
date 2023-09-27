@@ -38,7 +38,7 @@ public:
 //
 //
 	GameWindow()
-		: Window(Gosu::screen_width(),Gosu::screen_height())
+		: Window(Gosu::screen_width(),Gosu::screen_height(),true)
 	{
 		set_caption("Tanktastic");
 
