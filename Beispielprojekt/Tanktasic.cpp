@@ -1,16 +1,33 @@
 #include <Gosu/Gosu.hpp>
 #include <Gosu/AutoLink.hpp>
 
+
 class Welt {
+	public: 
+		 
 
 };
-class Spieler {
+
+class Objekte {
+public: 
+	// Positionen vom Objekt
+	float x_pos, vel_x; // Position + Geschwindigkeit 
+	float y_pos, vel_y; // Position + Geschwindigkeit 
+	float angle; 
 
 };
-class Hindernis {
+
+
+class Spieler : public Objekte{
+public: 
+	unsigned score; // Gibt den Score an 
+
+
+};
+class Hindernis : public Objekte {// Steht nur im Weg 
 	
 };
-class Gegner {
+class Gegner : public Objekte{ // Kann schieﬂen (evtl. Nur am Bildrand) 
 
 };
 
@@ -19,9 +36,11 @@ class GameWindow : public Gosu::Window
 public:
 
 	GameWindow()
-		: Window(800, 600)
+		: Window(Gosu::screen_width, Gosu::screen_height); 
 	{
 		set_caption("Tanktastic");
+
+		//std::string filename = Gosu::resource_prefix() + "media/Stasse.png"
 	}
 
 	// Wird bis zu 60x pro Sekunde aufgerufen.
@@ -29,10 +48,8 @@ public:
 	// dann werden `draw` Aufrufe ausgelassen und die Framerate sinkt
 	void draw() override
 	{
-		graphics().draw_line(
-			10, 20, Gosu::Color::RED,
-			200, 100, Gosu::Color::GREEN,
-			0.0
+	
+
 		);
 	}
 
