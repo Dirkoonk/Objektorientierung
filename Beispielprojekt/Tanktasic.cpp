@@ -29,6 +29,8 @@ public:
 	}
 };
 
+
+
 // C++ Hauptprogramm
 int main()
 {
