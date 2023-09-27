@@ -33,10 +33,12 @@ class Gegner : public Objekte{ // Kann schieﬂen (evtl. Nur am Bildrand)
 
 class GameWindow : public Gosu::Window
 {
+	int width = Gosu::screen_width; 
+	int height = Gosu::screen_height; 
 public:
 
 	GameWindow()
-		: Window(Gosu::screen_width,Gosu::screen_height)
+		: Window(width, height)
 	{
 		set_caption("Tanktastic");
 
