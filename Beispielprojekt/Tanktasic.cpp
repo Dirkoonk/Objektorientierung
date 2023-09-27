@@ -1,6 +1,19 @@
 #include <Gosu/Gosu.hpp>
 #include <Gosu/AutoLink.hpp>
 
+class Welt {
+
+};
+class Spieler {
+
+};
+class Hindernis {
+	
+};
+class Gegner {
+
+};
+
 class GameWindow : public Gosu::Window
 {
 public:
