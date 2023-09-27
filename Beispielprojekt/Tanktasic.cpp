@@ -36,7 +36,7 @@ class GameWindow : public Gosu::Window
 public:
 
 	GameWindow()
-		: Window(Gosu::screen_width, Gosu::screen_height); 
+		: Window(Gosu::screen_width,Gosu::screen_height)
 	{
 		set_caption("Tanktastic");
 
@@ -50,7 +50,7 @@ public:
 	{
 	
 
-		);
+		
 	}
 
 	// Wird 60x pro Sekunde aufgerufen
