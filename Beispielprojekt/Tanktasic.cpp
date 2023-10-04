@@ -34,7 +34,7 @@ class Gegner : public Objekte{ // Kann schieﬂen (evtl. Nur am Bildrand)
 
 class GameWindow : public Gosu::Window
 {
-	std::unique_ptr<Gosu::Image> background_image;
+	Gosu::Image background;
 
 public:
 //
