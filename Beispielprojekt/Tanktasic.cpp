@@ -1,5 +1,6 @@
 #include <Gosu/Gosu.hpp>
 #include <Gosu/AutoLink.hpp>
+using namespace std; 
 
 
 class Welt {
@@ -37,14 +38,25 @@ class GameWindow : public Gosu::Window
 
 public:
 //
-//
+
+	Gosu::Image Bild; 
+
+
 	GameWindow()
-		: Window(Gosu::screen_width(),Gosu::screen_height(),true)
+		: Window(Gosu::screen_width(), Gosu::screen_height(), true),
+		Bild("Strasse.png.png")
 	{
 		set_caption("Tanktastic");
+	
+		//Bild.reset(new Gosu::Image("rakete.png"));
+		//background.new = Gosu::Image("hintergrund.png"); // Bildpfad anpassen
 		
-		std::string filename =  "Beispielprojekt/Strasse.png.png";
-		background_image.reset(new Gosu::Image("Beispielprojekt/Strasse.png.png", Gosu::IF_TILEABLE));
+
+		//backgrund load = Gosu::Image(Pfad)
+		//std::string filename =  "Beispielprojekt/Strasse.png.png";
+		//background_image.reset(new Gosu::Image("/rakete.png", Gosu::IF_TILEABLE));
+
+			
 
 		//std::string filename = Gosu::resource_prefix() + "media/Stasse.png"
 	}
@@ -54,9 +66,11 @@ public:
 	// dann werden `draw` Aufrufe ausgelassen und die Framerate sinkt
 	void draw() override
 	{
-	
-
+		double x = Gosu::screen_width() / 1300, y = Gosu::screen_height() / 866; 
 		
+		Bild.draw(0.0 , 0.0 , 0.0, 1+ (Gosu::screen_width() / 1300) , 1+ (Gosu::screen_height() / 866));
+		
+	
 	}
 
 	// Wird 60x pro Sekunde aufgerufen
