@@ -40,8 +40,10 @@ public:
 //
 
 	Gosu::Image Bild; 
-	double x = 0 , y = -899; // Bild Startpunkt 
+	double x = 0 , y = ( - 602 * screen_dehner_hight)- Gosu::screen_height(); // Bild Startpunkt 
 	double speed_Hintergrund = 1; // Bild bewegung 
+	double screen_dehner_width = Gosu::screen_width() / 899.0; // Dehnungsfaktor Bild pixel
+	double screen_dehner_hight = (Gosu::screen_height() / 602.0) * 2;
 
 	GameWindow()
 		: Window(Gosu::screen_width(), Gosu::screen_height(), true),
@@ -65,12 +67,15 @@ public:
 	// Wird bis zu 60x pro Sekunde aufgerufen.
 	// Wenn die Grafikkarte oder der Prozessor nicht mehr hinterherkommen,
 	// dann werden `draw` Aufrufe ausgelassen und die Framerate sinkt
+
+	
+
 	void draw() override
 	{
 		 
 		// Bild passt sich an Monitor an 
 		
-		Bild.draw(x , y , 0.0,  (Gosu::screen_width() / 899.0) ,  (Gosu::screen_height() / 602.0));
+		Bild.draw(x , y , 0.0,  screen_dehner_width , screen_dehner_hight);
 		
 	
 	}
@@ -80,7 +85,7 @@ public:
 	{
 		if (y >= 0)
 		{
-			y = -400; 
+			y = (-602 * screen_dehner_hight) - Gosu::screen_height(); // Zurückhüpfpunkt
 		}
 		y += speed_Hintergrund; 
 		
