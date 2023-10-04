@@ -75,11 +75,7 @@ public:
 		 
 		// Bild passt sich an Monitor an 
 		
-<<<<<<< HEAD
-		Bild.draw(x , y , 0.0, 1+ Gosu::screen_width() / 899.0 ,Gosu::screen_height() / 602.0);
-=======
 		Bild.draw(x , y , 0.0,  screen_dehner_width , screen_dehner_hight);
->>>>>>> 0387191b647cebb72b7da266eeec02d6b848b5ed
 		
 	
 	}
