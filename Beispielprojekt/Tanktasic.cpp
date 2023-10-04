@@ -33,20 +33,17 @@ class Gegner : public Objekte{ // Kann schieﬂen (evtl. Nur am Bildrand)
 
 class GameWindow : public Gosu::Window
 {
-	std::unique_ptr<Gosu::Image> background_image;
+	Gosu::Image background;
 
 public:
 //
-//
+	
 	GameWindow()
-		: Window(Gosu::screen_width(),Gosu::screen_height(),true)
+		: Window(Gosu::screen_width(),Gosu::screen_height(),true),background("Strasse.png.png")
 	{
 		set_caption("Tanktastic");
 		
-		std::string filename =  "Beispielprojekt/Strasse.png.png";
-		background_image.reset(new Gosu::Image("Beispielprojekt/Strasse.png.png", Gosu::IF_TILEABLE));
-
-		//std::string filename = Gosu::resource_prefix() + "media/Stasse.png"
+		
 	}
 
 	// Wird bis zu 60x pro Sekunde aufgerufen.
@@ -55,7 +52,7 @@ public:
 	void draw() override
 	{
 	
-
+		background.draw(0, 0, 0,Gosu::screen_width()/1300.0, Gosu::screen_height()/866.0);
 		
 	}
 
