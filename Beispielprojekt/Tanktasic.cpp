@@ -70,7 +70,7 @@ public:
 		 
 		// Bild passt sich an Monitor an 
 		
-		Bild.draw(x , y , 0.0, 1+ (Gosu::screen_width() / 899) , 1+ (Gosu::screen_height() / 602));
+		Bild.draw(x , y , 0.0,  (Gosu::screen_width() / 899.0) ,  (Gosu::screen_height() / 602.0));
 		
 	
 	}
@@ -80,7 +80,7 @@ public:
 	{
 		if (y >= 0)
 		{
-			y = -899; 
+			y = -400; 
 		}
 		y += speed_Hintergrund; 
 		
