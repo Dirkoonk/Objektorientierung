@@ -40,11 +40,12 @@ public:
 //
 
 	Gosu::Image Bild; 
-
+	double x = 0 , y = -899; // Bild Startpunkt 
+	double speed_Hintergrund = 1; // Bild bewegung 
 
 	GameWindow()
 		: Window(Gosu::screen_width(), Gosu::screen_height(), true),
-		Bild("Strasse.png.png")
+		Bild("road.png")
 	{
 		set_caption("Tanktastic");
 	
@@ -66,9 +67,10 @@ public:
 	// dann werden `draw` Aufrufe ausgelassen und die Framerate sinkt
 	void draw() override
 	{
-		double x = Gosu::screen_width() / 1300, y = Gosu::screen_height() / 866; 
+		 
+		// Bild passt sich an Monitor an 
 		
-		Bild.draw(0.0 , 0.0 , 0.0, 1+ (Gosu::screen_width() / 1300) , 1+ (Gosu::screen_height() / 866));
+		Bild.draw(x , y , 0.0, 1+ (Gosu::screen_width() / 899) , 1+ (Gosu::screen_height() / 602));
 		
 	
 	}
@@ -76,6 +78,13 @@ public:
 	// Wird 60x pro Sekunde aufgerufen
 	void update() override
 	{
+		if (y >= 0)
+		{
+			y = -899; 
+		}
+		y += speed_Hintergrund; 
+		
+
 	}
 };
 
