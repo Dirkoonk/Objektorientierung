@@ -43,8 +43,8 @@ public:
 	{
 		set_caption("Tanktastic");
 		
-		std::string filename =  "media/Strasse.png.png";
-		background_image.reset(new Gosu::Image(filename, Gosu::IF_TILEABLE));
+		std::string filename =  "Beispielprojekt/Strasse.png.png";
+		background_image.reset(new Gosu::Image("Beispielprojekt/Strasse.png.png", Gosu::IF_TILEABLE));
 
 		//std::string filename = Gosu::resource_prefix() + "media/Stasse.png"
 	}
