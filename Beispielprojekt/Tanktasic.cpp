@@ -63,7 +63,7 @@ public:
 	//Bildschirm Grenzen 
 
 	double screen_grenze_links = 0; 
-	double screen_grenze_rechts = Gosu::screen_width(); 
+	double screen_grenze_rechts = Gosu::screen_width() - Tank1_width * Tank1_width_faktor;
 	
 	
 
@@ -109,10 +109,10 @@ public:
 	// Wird 60x pro Sekunde aufgerufen
 	void update() override
 	{
-		if (Gosu::Input::down(Gosu::KB_LEFT) && !(spieler_1.x_pos <= 0)) {
+		if (Gosu::Input::down(Gosu::KB_LEFT) && !(spieler_1.x_pos <= screen_grenze_links)) {
 			spieler_1.x_pos= spieler_1.x_pos-spieler_1.vel_x;
 		}
-		if (Gosu::Input::down(Gosu::KB_RIGHT) && !(spieler_1.x_pos >= (Gosu::screen_width() - Tank1_width * Tank1_width_faktor))) {
+		if (Gosu::Input::down(Gosu::KB_RIGHT) && !(spieler_1.x_pos >= screen_grenze_rechts)) {
 			spieler_1.x_pos= spieler_1.x_pos+spieler_1.vel_x;
 		}
 	
