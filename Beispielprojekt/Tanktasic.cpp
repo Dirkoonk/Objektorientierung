@@ -66,10 +66,12 @@ public:
 	GameWindow()
 		: Window(Gosu::screen_width(), Gosu::screen_height(), true),
 		Bild("road.png"),y(0.0),Tank1("tank.png")
+		
 	{
 		set_caption("Tanktastic");
 	
 		spieler_1.vel_x = 5;
+	
 	
 	
 	}
@@ -79,6 +81,7 @@ public:
 	// Wenn die Grafikkarte oder der Prozessor nicht mehr hinterherkommen,
 	// dann werden `draw` Aufrufe ausgelassen und die Framerate sinkt
 
+	
 
 	void draw() override
 	{
@@ -92,8 +95,9 @@ public:
 
 
 		//Score
+		//Gosu::Image textImage("Hallo", 32);
+		//textImage.draw(10, 10, 10); 
 		
-
 		
 	
 	}
@@ -116,7 +120,7 @@ public:
 		}
 		
 		//Score
-		spieler_1.score = spieler_1.score  + 0.1; 
+		//spieler_1.score = spieler_1.score  + 0.1; 
 	}
 };
 
