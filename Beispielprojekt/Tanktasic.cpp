@@ -65,7 +65,7 @@ public:
 	double screen_grenze_links = 0; 
 	double screen_grenze_rechts = Gosu::screen_width() - Tank1_width * Tank1_width_faktor;
 	
-	
+	Gosu::Font myfont;
 
 	GameWindow()
 		: Window(Gosu::screen_width(), Gosu::screen_height(), true),
@@ -102,7 +102,7 @@ public:
 		//Gosu::Image textImage("Hallo", 32);
 		//textImage.draw(10, 10, 10); 
 		
-		
+		myfont.draw_text("Score", 20, 30, 0 );
 	
 	}
 
