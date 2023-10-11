@@ -90,12 +90,12 @@ public:
 	void draw() override
 	{
 		 
-								// Bild passt sich an Monitor an 
+		// Bild passt sich an Monitor an 
 		Bild.draw(0.0 , y , 0.0,  screen_dehner_width , screen_dehner_hight);
 		Bild.draw(0.0, y- Gosu::screen_height()+5, 0.0, screen_dehner_width, screen_dehner_hight);
 
-					//	position Panzer   //damit Panzer auf X-Achse ganz zu sehen ist 
-		Tank1.draw(spieler_1.x_pos, Gosu::screen_height()- (694*0.3), 0.0,0.3,0.3);
+		//	position Panzer   //damit Panzer auf X-Achse ganz zu sehen ist 
+		Tank1.draw(spieler_1.x_pos, Gosu::screen_height()- (Tank1_height * Tank1_height_faktor), 0.0, Tank1_width_faktor, Tank1_height_faktor);
 
 
 		// Score
