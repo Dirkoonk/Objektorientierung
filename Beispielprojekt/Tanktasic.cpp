@@ -90,10 +90,10 @@ public:
 	// Wird 60x pro Sekunde aufgerufen
 	void update() override
 	{
-		if (Gosu::Input::down(Gosu::KB_LEFT)) {
+		if (Gosu::Input::down(Gosu::KB_LEFT) && !(spieler_1.x_pos <= 0)) {
 			spieler_1.x_pos= spieler_1.x_pos-spieler_1.vel_x;
 		}
-		if (Gosu::Input::down(Gosu::KB_RIGHT)) {
+		if (Gosu::Input::down(Gosu::KB_RIGHT) && !(spieler_1.x_pos >= Gosu::screen_width())) {
 			spieler_1.x_pos= spieler_1.x_pos+spieler_1.vel_x;
 		}
 	
