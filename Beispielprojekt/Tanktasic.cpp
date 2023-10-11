@@ -69,7 +69,7 @@ public:
 
 	GameWindow()
 		: Window(Gosu::screen_width(), Gosu::screen_height(), true),
-		Bild("media/road.png"),y(0.0),Tank1("media/stein.png")
+		Bild("media/road.png"),y(0.0),Tank1("media/stein.png"), myfont(20)
 		
 	{
 		set_caption("Tanktastic");
@@ -98,11 +98,8 @@ public:
 		Tank1.draw(spieler_1.x_pos, Gosu::screen_height()- (694*0.3), 0.0,0.3,0.3);
 
 
-		//Score
-		//Gosu::Image textImage("Hallo", 32);
-		//textImage.draw(10, 10, 10); 
-		
-		myfont.draw_text("Score", 20, 30, 0 );
+		// Score
+		myfont.draw_text("Score", 20, 30, 0, 1,1, Gosu::Color::BLACK );
 	
 	}
 
