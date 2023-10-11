@@ -17,7 +17,7 @@ class Welt {
 class Objekte {
 public: 
 	// Positionen vom Objekt
-	float x_pos, vel_x; // Position + Geschwindigkeit 
+	float x_pos , vel_x; // Position + Geschwindigkeit 
 	float y_pos, vel_y; // Position + Geschwindigkeit 
 	float angle; 
 	int breite;
@@ -84,7 +84,7 @@ public:
 		set_caption("Tanktastic");
 	
 		spieler_1.vel_x = 5; // Panzer Geschwindigkeit
-	
+		spieler_1.x_pos = screen_width / 2 - (Tank1_width * Tank1_width_faktor)/2; // Panzer startet in der Mitte des Screen
 	
 	
 	}
@@ -123,9 +123,9 @@ public:
 		}
 	
 		
-
+		// Score hochzählen
 		y += speed_Hintergrund; 
-		spieler_1.score = spieler_1.score + speed_Hintergrund; // Score hochzählen
+		spieler_1.score = spieler_1.score + speed_Hintergrund; 
 		if (y >= screen_height) {
 			y = 0.0;
 		}
