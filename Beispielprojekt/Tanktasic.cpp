@@ -2,7 +2,7 @@
 #include <Gosu/AutoLink.hpp>
 using namespace std; 
 
-//Start Variablen Global 
+//Start Variablen Global (Performance)
 
 int  screen_width = Gosu::screen_width(); 
 double  screen_height = Gosu::screen_height(); 
