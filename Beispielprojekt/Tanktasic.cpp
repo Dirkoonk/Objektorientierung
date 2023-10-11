@@ -102,7 +102,7 @@ public:
 		//Gosu::Image textImage("Hallo", 32);
 		//textImage.draw(10, 10, 10); 
 		
-		myfont.draw_text("Score");
+		myfont.draw_text("Score", 20, 30, 0 );
 	
 	}
 
