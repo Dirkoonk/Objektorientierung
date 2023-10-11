@@ -68,7 +68,7 @@ public:
 	{
 		set_caption("Tanktastic");
 	
-		spieler_1.vel_x = 10; // Panzer Geschwindigkeit
+		spieler_1.vel_x = 5; // Panzer Geschwindigkeit
 	
 	
 	}
