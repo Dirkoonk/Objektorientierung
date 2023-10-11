@@ -69,7 +69,7 @@ public:
 
 	GameWindow()
 		: Window(Gosu::screen_width(), Gosu::screen_height(), true),
-		Bild("media/road.png"),y(0.0),Tank1("media/stein.png"), myfont(20)
+		Bild("media/road.png"),y(0.0),Tank1("media/tank.png"), myfont(20)
 		
 	{
 		set_caption("Tanktastic");
