@@ -125,6 +125,7 @@ public:
 		
 
 		y += speed_Hintergrund; 
+		spieler_1.score = spieler_1.score + speed_Hintergrund; // Score hochzählen
 		if (y >= screen_height) {
 			y = 0.0;
 		}
