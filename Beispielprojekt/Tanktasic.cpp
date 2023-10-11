@@ -1,11 +1,12 @@
 #include <Gosu/Gosu.hpp>
 #include <Gosu/AutoLink.hpp>
+#include <string.h>
 using namespace std; 
 
 
 class Welt {
 	public: 
-		 
+
 
 };
 
@@ -24,7 +25,8 @@ public:
 
 class Spieler : public Objekte{
 public: 
-	unsigned score; // Gibt den Score an 
+	int score; // Gibt den Score an 
+
 private:
 	
 	
@@ -99,7 +101,7 @@ public:
 
 
 		// Score
-		myfont.draw_text("Score", 20, 30, 0, 1,1, Gosu::Color::BLACK );
+		myfont.draw_text("Score:    " + to_string(spieler_1.score), 20, 30, 0, 1, 1, Gosu::Color::BLACK);
 	
 	}
 
@@ -116,12 +118,15 @@ public:
 		
 
 		y += speed_Hintergrund; 
+
+		spieler_1.score = spieler_1.score + speed_Hintergrund;
+				
 		if (y >= Gosu::screen_height()) {
 			y = 0.0;
 		}
 		
-		//Score
-		//spieler_1.score = spieler_1.score  + 0.1; 
+		
+		 
 	}
 };
 
