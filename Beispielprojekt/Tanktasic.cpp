@@ -59,16 +59,23 @@ public:
 	double speed_Hintergrund = 5; // Bild bewegung 
 	double screen_dehner_width = Gosu::screen_width() / 899.0; // Dehnungsfaktor Bild pixel
 	double screen_dehner_hight = (Gosu::screen_height() / 602.0);
+
+	//Bildschirm Grenzen 
+
+	double screen_grenze_links = 0; 
+	double screen_grenze_rechts = Gosu::screen_width(); 
 	
 	
 
 	GameWindow()
 		: Window(Gosu::screen_width(), Gosu::screen_height(), true),
 		Bild("road.png"),y(0.0),Tank1("tank.png")
+		
 	{
 		set_caption("Tanktastic");
 	
 		spieler_1.vel_x = 5; // Panzer Geschwindigkeit
+	
 	
 	
 	}
@@ -78,15 +85,23 @@ public:
 	// Wenn die Grafikkarte oder der Prozessor nicht mehr hinterherkommen,
 	// dann werden `draw` Aufrufe ausgelassen und die Framerate sinkt
 
+	
 
 	void draw() override
 	{
 		 
-		// Bild passt sich an Monitor an 
-		
+								// Bild passt sich an Monitor an 
 		Bild.draw(0.0 , y , 0.0,  screen_dehner_width , screen_dehner_hight);
 		Bild.draw(0.0, y- Gosu::screen_height()+5, 0.0, screen_dehner_width, screen_dehner_hight);
-		Tank1.draw(spieler_1.x_pos, Gosu::screen_height()- (Tank1_height * Tank1_width_faktor), 0.0, Tank1_width_faktor, Tank1_height_faktor);
+
+					//	position Panzer   //damit Panzer auf X-Achse ganz zu sehen ist 
+		Tank1.draw(spieler_1.x_pos, Gosu::screen_height()- (694*0.3), 0.0,0.3,0.3);
+
+
+		//Score
+		//Gosu::Image textImage("Hallo", 32);
+		//textImage.draw(10, 10, 10); 
+		
 		
 	
 	}
@@ -108,7 +123,8 @@ public:
 			y = 0.0;
 		}
 		
-
+		//Score
+		//spieler_1.score = spieler_1.score  + 0.1; 
 	}
 };
 
