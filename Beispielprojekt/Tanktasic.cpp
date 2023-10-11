@@ -47,6 +47,10 @@ class GameWindow : public Gosu::Window
 public:
 //
 	Gosu::Image Tank1;
+	double Tank1_height_faktor = 0.3; //Panzer Skalierungsfaktor Höhe
+	double Tank1_height = 694; // Panzer höhe
+	double Tank1_width_faktor = 0.3; // Panzer Skalierungsfaktor Breite
+	double Tank1_width = 281;
 	Gosu::Image Bild; 
 	Spieler spieler_1;
 
@@ -64,7 +68,7 @@ public:
 	{
 		set_caption("Tanktastic");
 	
-		spieler_1.vel_x = 5;
+		spieler_1.vel_x = 10; // Panzer Geschwindigkeit
 	
 	
 	}
@@ -82,7 +86,7 @@ public:
 		
 		Bild.draw(0.0 , y , 0.0,  screen_dehner_width , screen_dehner_hight);
 		Bild.draw(0.0, y- Gosu::screen_height()+5, 0.0, screen_dehner_width, screen_dehner_hight);
-		Tank1.draw(spieler_1.x_pos, Gosu::screen_height()- (694*0.3), 0.0,0.3,0.3);
+		Tank1.draw(spieler_1.x_pos, Gosu::screen_height()- (Tank1_height * Tank1_width_faktor), 0.0, Tank1_width_faktor, Tank1_height_faktor);
 		
 	
 	}
@@ -93,7 +97,7 @@ public:
 		if (Gosu::Input::down(Gosu::KB_LEFT) && !(spieler_1.x_pos <= 0)) {
 			spieler_1.x_pos= spieler_1.x_pos-spieler_1.vel_x;
 		}
-		if (Gosu::Input::down(Gosu::KB_RIGHT) && !(spieler_1.x_pos >= Gosu::screen_width())) {
+		if (Gosu::Input::down(Gosu::KB_RIGHT) && !(spieler_1.x_pos >= (Gosu::screen_width() - Tank1_width * Tank1_width_faktor))) {
 			spieler_1.x_pos= spieler_1.x_pos+spieler_1.vel_x;
 		}
 	
