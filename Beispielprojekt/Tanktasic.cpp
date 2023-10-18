@@ -51,7 +51,7 @@ class GameWindow : public Gosu::Window
 	
 
 public:
-//
+    Spieler spieler_1;
 	Gosu::Image Tank1;
 	double Tank1_height_faktor = 0.3; //Panzer Skalierungsfaktor Höhe
 	double Tank1_height = 694; // Panzer höhe
@@ -60,8 +60,10 @@ public:
 
 	double Tank1_width_faktor = 0.3; // Panzer Skalierungsfaktor Breite
 	double Tank1_width = 281;
+
+	//Hintergrund bild
 	Gosu::Image Bild; 
-	Spieler spieler_1;
+	
 
 
 	double y; // Bild Startpunkt 
@@ -74,11 +76,19 @@ public:
 	double screen_grenze_links = 0; 
 	double screen_grenze_rechts = screen_width - Tank1_width * Tank1_width_faktor;
 	
-	Gosu::Font myfont;
+	Gosu::Font myfont; //Schrift für den Score
+
+	// Gegenstände
+	//Stein
+	
+	Gosu::Image Stein; 
+
 
 	GameWindow()
 		: Window(screen_width, screen_height, true),
-		Bild("media/road.png"),y(0.0),Tank1("media/tank.png"), myfont(20)
+		Bild("media/road.png"),y(0.0),
+		Tank1("media/tank.png"), myfont(20)
+		Stein("media/stein.png"), 
 		
 	{
 		set_caption("Tanktastic");
@@ -110,6 +120,9 @@ public:
 		// Score
 		myfont.draw_text("Score:    " + to_string(spieler_1.score), 20, 30, 0, 1, 1, Gosu::Color::BLACK);
 	
+
+		//Gegenstände
+
 	}
 
 	// Wird 60x pro Sekunde aufgerufen
