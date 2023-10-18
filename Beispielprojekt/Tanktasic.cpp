@@ -147,6 +147,11 @@ public:
 		if (Gosu::Input::down(Gosu::KB_RIGHT) && !(spieler_1.x_pos >= screen_grenze_rechts)) {
 			spieler_1.x_pos= spieler_1.x_pos+spieler_1.vel_x;
 		}
+
+		if (Gosu::Input::down(Gosu::KB_ESCAPE))
+		{
+			close();  // Beendet das Spiel.
+		}
 	
 		
 		// Score hochzählen
