@@ -122,7 +122,7 @@ public:
 	
 
 		//Gegenstände
-
+		
 	}
 
 	// Wird 60x pro Sekunde aufgerufen
