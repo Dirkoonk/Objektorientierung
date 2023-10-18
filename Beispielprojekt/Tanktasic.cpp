@@ -1,6 +1,9 @@
 #include <Gosu/Gosu.hpp>
 #include <Gosu/AutoLink.hpp>
 #include <string.h>
+#include <iostream>
+#include <thread>
+#include <chrono>
 using namespace std; 
 
 //Start Variablen Global (Performance)
@@ -95,6 +98,8 @@ public:
 
 	double Stein1_width_faktor = 0.3; // Panzer Skalierungsfaktor Breite
 	double Stein1_width = 281;
+	bool isPaused = false;
+	bool wasPaused = false;
 
 
 	GameWindow()
@@ -121,46 +126,65 @@ public:
 
 	void draw() override
 	{
-		 
-		// Bild passt sich an Monitor an 
-		Bild.draw(0.0 , y , 0.0,  screen_dehner_width , screen_dehner_hight);
-		Bild.draw(0.0, y- screen_height+5, 0.0, screen_dehner_width, screen_dehner_hight);
+		if (!isPaused)
+		{
+			// Bild passt sich an Monitor an 
+			Bild.draw(0.0, y, 0.0, screen_dehner_width, screen_dehner_hight);
+			Bild.draw(0.0, y - screen_height + 5, 0.0, screen_dehner_width, screen_dehner_hight);
 
-		//	position Panzer   //damit Panzer auf X-Achse ganz zu sehen ist 
-		Tank1.draw(spieler_1.x_pos, screen_height- (Tank1_height * Tank1_height_faktor), 0.0, Tank1_width_faktor, Tank1_height_faktor);
+			//	position Panzer   //damit Panzer auf X-Achse ganz zu sehen ist 
+			Tank1.draw(spieler_1.x_pos, screen_height - (Tank1_height * Tank1_height_faktor), 0.0, Tank1_width_faktor, Tank1_height_faktor);
 
 
-		// Score
-		myfont.draw_text("Score:    " + to_string(spieler_1.score), 20, 30, 0, 1, 1, Gosu::Color::BLACK);
-	
+			// Score
+			myfont.draw_text("Score:    " + to_string(spieler_1.score), 20, 30, 0, 3, 3, Gosu::Color::BLACK);
 
-		//Gegenstände
-		//Stein.draw(stein_1.x_pos, stein_1.y_pos, 0.0 )
+
+			//Gegenstände
+			//Stein.draw(stein_1.x_pos, stein_1.y_pos, 0.0 )
+		}
+		else
+		{
+			myfont.draw_text("Pause - Druecke \"P\"", screen_width/2, screen_height/2, 0, 1, 1, Gosu::Color::WHITE);
+		}
 	}
 
 	// Wird 60x pro Sekunde aufgerufen
 	void update() override
 	{
-		if (Gosu::Input::down(Gosu::KB_LEFT) && !(spieler_1.x_pos <= screen_grenze_links)) {
-			spieler_1.x_pos= spieler_1.x_pos-spieler_1.vel_x;
+		if (!isPaused) {
+			// Führen Sie das Spiel-Update nur aus, wenn es nicht pausiert ist.
+			if (Gosu::Input::down(Gosu::KB_LEFT) && !(spieler_1.x_pos <= screen_grenze_links)) {
+				spieler_1.x_pos = spieler_1.x_pos - spieler_1.vel_x;
+			}
+			if (Gosu::Input::down(Gosu::KB_RIGHT) && !(spieler_1.x_pos >= screen_grenze_rechts)) {
+				spieler_1.x_pos = spieler_1.x_pos + spieler_1.vel_x;
+			}
+
+			if (Gosu::Input::down(Gosu::KB_P)) // Prüfen Sie die Taste "P", um das Spiel zu pausieren
+			{
+				isPaused = !isPaused;
+				this_thread::sleep_for(chrono::milliseconds(200)); //delay um schnelles wechseln zu verhindern.
+			}
+			// Score hochzählen
+			y += speed_Hintergrund;
+			spieler_1.score = spieler_1.score + speed_Hintergrund;
+			if (y >= screen_height) {
+				y = 0.0;
+			}
 		}
-		if (Gosu::Input::down(Gosu::KB_RIGHT) && !(spieler_1.x_pos >= screen_grenze_rechts)) {
-			spieler_1.x_pos= spieler_1.x_pos+spieler_1.vel_x;
+		else {
+		if (Gosu::Input::down(Gosu::KB_P)) // Prüfen Sie die Taste "P", um das Spiel fortzusetzen
+			{
+			isPaused = !isPaused;
+			this_thread::sleep_for(chrono::milliseconds(200));
+
+			}
 		}
 
-		if (Gosu::Input::down(Gosu::KB_ESCAPE))
-		{
-			close();  // Beendet das Spiel.
+		if (Gosu::Input::down(Gosu::KB_ESCAPE)) {
+			close(); // Beendet das Spiel.
 		}
-	
-		
-		// Score hochzählen
-		y += speed_Hintergrund; 
-		spieler_1.score = spieler_1.score + speed_Hintergrund; 
-		if (y >= screen_height) {
-			y = 0.0;
-		}
-		
 		
 		 
 	}
