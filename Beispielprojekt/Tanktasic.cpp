@@ -56,13 +56,13 @@ public:
 	Gosu::Image Tank1;
 
 	double Tank1_height = 694; // Panzer höhe
-	double Tank1_height_faktor = Tank1_height / screen_height *0.4 ; //Panzer Skalierungsfaktor Höhe
+	double Tank1_height_faktor = screen_height / Tank1_height  * 0.37 ; //Panzer Skalierungsfaktor Höhe
 	
 	
 	//double Tank1_real_height = 
 
 	double Tank1_width = 281;
-	double Tank1_width_faktor = Tank1_width / screen_width * 2; // Panzer Skalierungsfaktor Breite
+	double Tank1_width_faktor = screen_width / Tank1_width  * 0.1 ; // Panzer Skalierungsfaktor Breite
 	
 
 	//Hintergrund bild
