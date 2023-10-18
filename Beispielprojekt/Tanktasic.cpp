@@ -56,13 +56,13 @@ public:
 	Gosu::Image Tank1;
 
 	double Tank1_height = 694; // Panzer höhe
-	double Tank1_height_faktor = Tank1_height / screen_height; //Panzer Skalierungsfaktor Höhe
+	double Tank1_height_faktor = Tank1_height / screen_height *0.4 ; //Panzer Skalierungsfaktor Höhe
 	
 	
 	//double Tank1_real_height = 
 
 	double Tank1_width = 281;
-	double Tank1_width_faktor = 0.3; // Panzer Skalierungsfaktor Breite
+	double Tank1_width_faktor = Tank1_width / screen_width * 2; // Panzer Skalierungsfaktor Breite
 	
 
 	//Hintergrund bild
@@ -72,7 +72,7 @@ public:
 
 	double y; // Bild Startpunkt 
 	double speed_Hintergrund = 5; // Bild bewegung 
-	double screen_dehner_width = screen_width / 899.0; // Dehnungsfaktor Bild pixel
+	double screen_dehner_width = screen_width / 899.0 ; // Dehnungsfaktor Bild pixel
 	double screen_dehner_hight = (screen_height / 602.0);
 
 	//Bildschirm Grenzen 
@@ -100,8 +100,8 @@ public:
 	GameWindow()
 		: Window(screen_width, screen_height, true),
 		Bild("media/road.png"),y(0.0),
-		Tank1("media/tank.png"), myfont(20)
-		Stein("media/stein.png"), 
+		Tank1("media/tank.png"), myfont(20),
+		Stein("media/stein.png")
 		
 	{
 		set_caption("Tanktastic");
@@ -135,7 +135,7 @@ public:
 	
 
 		//Gegenstände
-		Stein.draw(stein_1.x_pos, stein_1.y_pos, 0.0 )
+		//Stein.draw(stein_1.x_pos, stein_1.y_pos, 0.0 )
 	}
 
 	// Wird 60x pro Sekunde aufgerufen
