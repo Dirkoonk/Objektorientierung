@@ -52,6 +52,7 @@ class GameWindow : public Gosu::Window
 
 public:
     Spieler spieler_1;
+	Hindernis stein_1;
 	Gosu::Image Tank1;
 	double Tank1_height_faktor = 0.3; //Panzer Skalierungsfaktor Höhe
 	double Tank1_height = 694; // Panzer höhe
