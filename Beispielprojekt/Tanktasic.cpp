@@ -54,13 +54,16 @@ public:
     Spieler spieler_1;
 	Hindernis stein_1;
 	Gosu::Image Tank1;
-	double Tank1_height_faktor = 0.3; //Panzer Skalierungsfaktor Höhe
+
 	double Tank1_height = 694; // Panzer höhe
+	double Tank1_height_faktor = Tank1_height / screen_height; //Panzer Skalierungsfaktor Höhe
+	
 	
 	//double Tank1_real_height = 
 
-	double Tank1_width_faktor = 0.3; // Panzer Skalierungsfaktor Breite
 	double Tank1_width = 281;
+	double Tank1_width_faktor = 0.3; // Panzer Skalierungsfaktor Breite
+	
 
 	//Hintergrund bild
 	Gosu::Image Bild; 
@@ -83,6 +86,15 @@ public:
 	//Stein
 	
 	Gosu::Image Stein; 
+
+
+	double Stein1_height_faktor = 0.3; //Panzer Skalierungsfaktor Höhe
+	double Stein1_height = 694; // Panzer höhe
+
+	//double Tank1_real_height = 
+
+	double Stein1_width_faktor = 0.3; // Panzer Skalierungsfaktor Breite
+	double Stein1_width = 281;
 
 
 	GameWindow()
@@ -123,7 +135,7 @@ public:
 	
 
 		//Gegenstände
-		
+		Stein.draw(stein_1.x_pos, stein_1.y_pos, 0.0 )
 	}
 
 	// Wird 60x pro Sekunde aufgerufen
