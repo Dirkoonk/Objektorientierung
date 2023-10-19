@@ -76,7 +76,7 @@ public:
 	double y; // Bild Startpunkt 
 	double speed_Hintergrund = 5; // Bild bewegung 
 	double screen_dehner_width = screen_width / 899.0 ; // Dehnungsfaktor Bild pixel
-	double screen_dehner_hight = (screen_height / 602.0);
+	double screen_dehner_hight = screen_height / 602.0;
 
 	//Bildschirm Grenzen 
 
@@ -101,6 +101,11 @@ public:
 	bool isPaused = false;
 	bool wasPaused = false;
 
+
+	//Skalierung des Scores 
+	double Score_x_scale = screen_width / 600; // 200 = gewünschte Score Größe x Wert 
+	double Score_y_scale = screen_height / 600;  // 50 gewünschte Score Höhe y Wert 
+ 
 
 	GameWindow()
 		: Window(screen_width, screen_height, true),
@@ -137,7 +142,7 @@ public:
 
 
 			// Score
-			myfont.draw_text("Score:    " + to_string(spieler_1.score), 20, 30, 0, 3, 3, Gosu::Color::BLACK);
+			myfont.draw_text("Score:    " + to_string(spieler_1.score), 20, 20, 0, Score_x_scale, Score_y_scale, Gosu::Color::BLACK);
 
 
 			//Gegenstände
