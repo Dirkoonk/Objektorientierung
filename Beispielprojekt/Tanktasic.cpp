@@ -101,6 +101,9 @@ public:
 	bool isPaused = false;
 	bool wasPaused = false;
 
+	// GUI - HUD
+	Gosu::Image ESC_Button; 
+	Gosu::Image Pause_Button; 
 
 	//Skalierung des Scores 
 	double Score_x_scale = screen_width / 600; // 200 = gewünschte Score Größe x Wert 
@@ -111,7 +114,9 @@ public:
 		: Window(screen_width, screen_height, true),
 		Bild("media/road.png"),y(0.0),
 		Tank1("media/tank.png"), myfont(20),
-		Stein("media/stein.png")
+		Stein("media/stein.png"),
+		ESC_Button("media/ESC-Button.png"),
+		Pause_Button("media/PauseButton.png")
 		
 	{
 		set_caption("Tanktastic");
@@ -131,6 +136,9 @@ public:
 
 	void draw() override
 	{
+		ESC_Button.draw(10, 10, 0.0); 
+		Pause_Button.draw(20, 10, 0.0); 
+
 		if (!isPaused)
 		{
 			// Bild passt sich an Monitor an 
