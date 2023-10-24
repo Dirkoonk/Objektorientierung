@@ -164,7 +164,7 @@ public:
 			if (Gosu::Input::down(Gosu::KB_P)) // Prüfen Sie die Taste "P", um das Spiel zu pausieren
 			{
 				isPaused = !isPaused;
-				this_thread::sleep_for(chrono::milliseconds(200)); //delay um schnelles wechseln zu verhindern.
+				this_thread::sleep_for(chrono::milliseconds(150)); //delay um schnelles wechseln zu verhindern.
 			}
 			// Score hochzählen
 			y += speed_Hintergrund;
@@ -177,7 +177,7 @@ public:
 		if (Gosu::Input::down(Gosu::KB_P)) // Prüfen Sie die Taste "P", um das Spiel fortzusetzen
 			{
 			isPaused = !isPaused;
-			this_thread::sleep_for(chrono::milliseconds(200));
+			this_thread::sleep_for(chrono::milliseconds(150)); //delay um schnelles wechseln zu verhindern.
 
 			}
 		}
