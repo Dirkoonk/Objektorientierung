@@ -16,6 +16,7 @@ class Welt {
 		double speed;
 		double bild_h;
 		double bild_w;
+		double y;
 
 		double scale_h() {
 			return screen_height / bild_h;
@@ -23,6 +24,12 @@ class Welt {
 		
 		double scale_w() {
 			return screen_width / bild_w;
+		}
+		void move() {
+			y += speed;
+			if (y >= screen_height) {
+				y = 0.0;
+			}
 		}
 		
 
@@ -71,7 +78,18 @@ private:
 };
 class Hindernis : public Objekte {// Steht nur im Weg 
 public:
+	void move(double welt_speed) {
 
+		if (this->y_pos <= screen_height) {
+			this->y_pos = +welt_speed;
+		}
+		
+		if (this->y_pos > screen_height) {
+			this->x_pos = Gosu::random(0, screen_width);
+			this->y_pos = 0.0;
+		}
+
+	}
 private:
 	int random_xpos() {
 		this->x_pos = Gosu::random(this->breite,Gosu::screen_height()-this->hoehe);
@@ -144,8 +162,10 @@ public:
 		//versuch objekte zu verwenden
 		stein_1.breite = 281;//breite Bild
 		stein_1.hoehe = 694;//höhe Bild
-		stein_1.w_faktor = 0.3;
-		stein_1.h_faktor = 0.3;
+		stein_1.w_faktor = 0.025;
+		stein_1.h_faktor = 0.05;
+		stein_1.x_pos = Gosu::random(1.0,screen_width);
+		//stein_1.y_pos = 0;
 
 		welt.speed = 5;
 		welt.bild_h = 602.0;
@@ -170,8 +190,8 @@ public:
 		if (!isPaused)
 		{
 			// Bild passt sich an Monitor an 
-			Bild.draw(0.0, y, 0.0, welt.scale_w(), welt.scale_h());
-			Bild.draw(0.0, y - screen_height + 5, 0.0, welt.scale_w(), welt.scale_h());
+			Bild.draw(0.0, welt.y, 0.0, welt.scale_w(), welt.scale_h());
+			Bild.draw(0.0, welt.y - screen_height + 5, 0.0, welt.scale_w(), welt.scale_h());
 
 					//	position Panzer   //damit Panzer auf X-Achse ganz zu sehen ist 
 			Tank1.draw(spieler_1.x_pos, screen_height - (spieler_1.hoehe * spieler_1.h_scale()), 0.0, spieler_1.w_scale(), spieler_1.h_scale());
@@ -182,7 +202,7 @@ public:
 
 
 			//Gegenstände
-			//Stein.draw(stein_1.x_pos, stein_1.y_pos, 0.0 )
+			Stein.draw(stein_1.x_pos , stein_1.y_pos, 0.0, stein_1.w_scale(), stein_1.h_scale());
 		}
 		else
 		{
@@ -195,6 +215,7 @@ public:
 	{
 		if (!isPaused) {
 			// Führen Sie das Spiel-Update nur aus, wenn es nicht pausiert ist.
+			//Bewegung Spieler
 			spieler_1.move();
 
 			if (Gosu::Input::down(Gosu::KB_P)) // Prüfen Sie die Taste "P", um das Spiel zu pausieren
@@ -203,11 +224,14 @@ public:
 				this_thread::sleep_for(chrono::milliseconds(200)); //delay um schnelles wechseln zu verhindern.
 			}
 			// Score hochzählen
-			y += welt.speed;
+			
 			spieler_1.score = spieler_1.score + welt.speed;
-			if (y >= screen_height) {
-				y = 0.0;
-			}
+			
+			//Bewegung der Welt
+			welt.move();
+
+			stein_1.move(welt.speed);
+
 		}
 		else {
 		if (Gosu::Input::down(Gosu::KB_P)) // Prüfen Sie die Taste "P", um das Spiel fortzusetzen
