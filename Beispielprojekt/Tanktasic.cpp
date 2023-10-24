@@ -129,8 +129,8 @@ public:
 
 	//double Tank1_real_height = 
 
-	bool isPaused = false;
-	bool wasPaused = false;
+	bool isPaused;
+	bool isPauseKeyDown;
 
 	// GUI - HUD
 	Gosu::Image ESC_Button; 
@@ -215,30 +215,38 @@ public:
 	{
 		if (!isPaused) {
 			// Führen Sie das Spiel-Update nur aus, wenn es nicht pausiert ist.
-			//Bewegung Spieler
+			// Bewegung Spieler
 			spieler_1.move();
 
-			if (Gosu::Input::down(Gosu::KB_P)) // Prüfen Sie die Taste "P", um das Spiel zu pausieren
+			if (Gosu::Input::down(Gosu::KB_P) && !isPauseKeyDown) // Prüfen Sie die Taste "P", um das Spiel zu pausieren
 			{
-				isPaused = !isPaused;
-				this_thread::sleep_for(chrono::milliseconds(150)); //delay um schnelles wechseln zu verhindern.
+				isPaused = true;
+				isPauseKeyDown = true;
+				//this_thread::sleep_for(chrono::milliseconds(150)); // delay um schnelles Wechseln zu verhindern.
 			}
+			else if (!Gosu::Input::down(Gosu::KB_P))
+			{
+				isPauseKeyDown = false;
+			}
+
 			// Score hochzählen
-			
 			spieler_1.score = spieler_1.score + welt.speed;
-			
-			//Bewegung der Welt
+
+			// Bewegung der Welt
 			welt.move();
 
 			stein_1.move(welt.speed);
-
 		}
 		else {
-		if (Gosu::Input::down(Gosu::KB_P)) // Prüfen Sie die Taste "P", um das Spiel fortzusetzen
+			if (Gosu::Input::down(Gosu::KB_P) && !isPauseKeyDown) // Prüfen Sie die Taste "P", um das Spiel fortzusetzen
 			{
-			isPaused = !isPaused;
-			this_thread::sleep_for(chrono::milliseconds(150)); //delay um schnelles wechseln zu verhindern.
-
+				isPaused = false;
+				isPauseKeyDown = true;
+				//this_thread::sleep_for(chrono::milliseconds(150)); // delay um schnelles Wechseln zu verhindern.
+			}
+			else if (!Gosu::Input::down(Gosu::KB_P))
+			{
+				isPauseKeyDown = false;
 			}
 		}
 
