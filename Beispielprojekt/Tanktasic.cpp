@@ -71,6 +71,8 @@ public:
 		}
 	}
 
+	//std::vector<Kugel> kugelList; //Liste von Kugeln
+
 private:
 	
 	
@@ -127,6 +129,8 @@ public:
 	
 	Gosu::Image Stein; 
 
+	//Gosu::Image Kugel;
+
 	//double Tank1_real_height = 
 
 	bool isPaused;
@@ -148,6 +152,7 @@ public:
 		Stein("media/stein.png"),
 		ESC_Button("media/ESC-Button.png"),
 		Pause_Button("media/PauseButton.png")
+		//Kugel("media/kugel.png")
 		
 	{
 		set_caption("Tanktastic");
@@ -218,11 +223,10 @@ public:
 			// Bewegung Spieler
 			spieler_1.move();
 
-			if (Gosu::Input::down(Gosu::KB_P) && !isPauseKeyDown) // Prüfen Sie die Taste "P", um das Spiel zu pausieren
+			if (Gosu::Input::down(Gosu::KB_P) && !isPauseKeyDown) // Prüfen Taste "P", um das Spiel zu pausieren
 			{
 				isPaused = true;
 				isPauseKeyDown = true;
-				//this_thread::sleep_for(chrono::milliseconds(150)); // delay um schnelles Wechseln zu verhindern.
 			}
 			else if (!Gosu::Input::down(Gosu::KB_P))
 			{
@@ -238,11 +242,10 @@ public:
 			stein_1.move(welt.speed);
 		}
 		else {
-			if (Gosu::Input::down(Gosu::KB_P) && !isPauseKeyDown) // Prüfen Sie die Taste "P", um das Spiel fortzusetzen
+			if (Gosu::Input::down(Gosu::KB_P) && !isPauseKeyDown) // Prüfen Taste "P", um das Spiel fortzusetzen
 			{
 				isPaused = false;
 				isPauseKeyDown = true;
-				//this_thread::sleep_for(chrono::milliseconds(150)); // delay um schnelles Wechseln zu verhindern.
 			}
 			else if (!Gosu::Input::down(Gosu::KB_P))
 			{
