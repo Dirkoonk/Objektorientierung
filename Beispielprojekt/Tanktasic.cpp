@@ -25,6 +25,15 @@ public:
 	float angle; 
 	int breite;
 	int hoehe;
+	double w_faktor;
+	double h_faktor;
+
+	double w_scale() {
+		return screen_width / breite * w_faktor;
+	}
+	double h_scale() {
+		return screen_height / hoehe * h_faktor;
+	}
 
 	
 };
@@ -40,12 +49,17 @@ private:
 
 };
 class Hindernis : public Objekte {// Steht nur im Weg 
-	
+public:
+
+private:
+	int random_xpos() {
+		this->x_pos = Gosu::random(this->breite,Gosu::screen_height()-this->hoehe);
+		return this->x_pos;
+	}
 };
 class Gegner : public Objekte{ // Kann schießen (evtl. Nur am Bildrand) 
 
 };
-
 
 
 
@@ -58,21 +72,9 @@ public:
 	Hindernis stein_1;
 	Gosu::Image Tank1;
 
-	double Tank1_height = 694; // Panzer höhe
-	double Tank1_height_faktor = screen_height / Tank1_height  * 0.37 ; //Panzer Skalierungsfaktor Höhe
-	
-	
-	//double Tank1_real_height = 
-
-	double Tank1_width = 281;
-	double Tank1_width_faktor = screen_width / Tank1_width  * 0.1 ; // Panzer Skalierungsfaktor Breite
-	
-
 	//Hintergrund bild
 	Gosu::Image Bild; 
 	
-
-
 	double y; // Bild Startpunkt 
 	double speed_Hintergrund = 5; // Bild bewegung 
 	double screen_dehner_width = screen_width / 899.0 ; // Dehnungsfaktor Bild pixel
@@ -80,9 +82,6 @@ public:
 
 	//Bildschirm Grenzen 
 
-	double screen_grenze_links = 0; 
-	double screen_grenze_rechts = screen_width - Tank1_width * Tank1_width_faktor;
-	
 	Gosu::Font myfont; //Schrift für den Score
 
 	// Gegenstände
@@ -90,14 +89,8 @@ public:
 	
 	Gosu::Image Stein; 
 
-
-	double Stein1_height_faktor = 0.3; //Panzer Skalierungsfaktor Höhe
-	double Stein1_height = 694; // Panzer höhe
-
 	//double Tank1_real_height = 
 
-	double Stein1_width_faktor = 0.3; // Panzer Skalierungsfaktor Breite
-	double Stein1_width = 281;
 	bool isPaused = false;
 	bool wasPaused = false;
 
@@ -120,9 +113,20 @@ public:
 		
 	{
 		set_caption("Tanktastic");
-	
+		//Spiler daten werden festgelegt
+		spieler_1.breite = 281;//breie Bild
+		spieler_1.hoehe = 694;//höhe Bild
+		spieler_1.h_faktor = 0.37;
+		spieler_1.w_faktor = 0.1;
 		spieler_1.vel_x = 5; // Panzer Geschwindigkeit
-		spieler_1.x_pos = screen_width / 2 - (Tank1_width * Tank1_width_faktor)/2; // Panzer startet in der Mitte des Screen
+		spieler_1.x_pos = screen_width / 2 - (spieler_1.breite * spieler_1.w_scale())/2; // Panzer startet in der Mitte des Screen
+		
+		//versuch objekte zu verwenden
+		stein_1.breite = 281;//breite Bild
+		stein_1.hoehe = 694;//höhe Bild
+		stein_1.w_faktor = 0.3;
+		stein_1.h_faktor = 0.3;
+
 	
 	
 	}
@@ -145,8 +149,8 @@ public:
 			Bild.draw(0.0, y, 0.0, screen_dehner_width, screen_dehner_hight);
 			Bild.draw(0.0, y - screen_height + 5, 0.0, screen_dehner_width, screen_dehner_hight);
 
-			//	position Panzer   //damit Panzer auf X-Achse ganz zu sehen ist 
-			Tank1.draw(spieler_1.x_pos, screen_height - (Tank1_height * Tank1_height_faktor), 0.0, Tank1_width_faktor, Tank1_height_faktor);
+					//	position Panzer   //damit Panzer auf X-Achse ganz zu sehen ist 
+			Tank1.draw(spieler_1.x_pos, screen_height - (spieler_1.hoehe * spieler_1.h_scale()), 0.0, spieler_1.w_scale(), spieler_1.h_scale());
 
 
 			// Score
@@ -167,10 +171,10 @@ public:
 	{
 		if (!isPaused) {
 			// Führen Sie das Spiel-Update nur aus, wenn es nicht pausiert ist.
-			if (Gosu::Input::down(Gosu::KB_LEFT) && !(spieler_1.x_pos <= screen_grenze_links)) {
+			if (Gosu::Input::down(Gosu::KB_LEFT) && !(spieler_1.x_pos <= 0)) {
 				spieler_1.x_pos = spieler_1.x_pos - spieler_1.vel_x;
 			}
-			if (Gosu::Input::down(Gosu::KB_RIGHT) && !(spieler_1.x_pos >= screen_grenze_rechts)) {
+			if (Gosu::Input::down(Gosu::KB_RIGHT) && !(spieler_1.x_pos >= screen_width - spieler_1.breite * spieler_1.w_scale())) {
 				spieler_1.x_pos = spieler_1.x_pos + spieler_1.vel_x;
 			}
 
