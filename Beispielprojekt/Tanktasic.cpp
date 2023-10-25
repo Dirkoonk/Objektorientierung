@@ -81,7 +81,7 @@ public:
 	void move(double welt_speed) {
 
 		if (this->y_pos <= screen_height) {
-			this->y_pos = +welt_speed;
+			this->y_pos =+ welt_speed;
 		}
 		
 		if (this->y_pos > screen_height) {
@@ -90,11 +90,12 @@ public:
 		}
 
 	}
-private:
 	int random_xpos() {
-		this->x_pos = Gosu::random(this->breite,Gosu::screen_height()-this->hoehe);
+		this->x_pos = Gosu::random(0,screen);
 		return this->x_pos;
 	}
+private:
+	
 };
 class Gegner : public Objekte{ // Kann schießen (evtl. Nur am Bildrand) 
 
@@ -164,8 +165,8 @@ public:
 		stein_1.hoehe = 694;//höhe Bild
 		stein_1.w_faktor = 0.025;
 		stein_1.h_faktor = 0.05;
-		stein_1.x_pos = Gosu::random(1.0,screen_width);
-		//stein_1.y_pos = 0;
+		stein_1.x_pos = Gosu::random(0,screen_width);
+		stein_1.y_pos = 0;
 
 		welt.speed = 5;
 		welt.bild_h = 602.0;
@@ -230,7 +231,7 @@ public:
 			//Bewegung der Welt
 			welt.move();
 
-			stein_1.move(welt.speed);
+			//stein_1.move(welt.speed);
 
 		}
 		else {
