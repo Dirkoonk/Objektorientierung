@@ -83,7 +83,7 @@ public:
 	void move(double welt_speed) {
 
 		if (this->y_pos <= screen_height) {
-			this->y_pos = +welt_speed;
+			this->y_pos = y_pos + welt_speed;
 		}
 		
 		if (this->y_pos > screen_height) {
