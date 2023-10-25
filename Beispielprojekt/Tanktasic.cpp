@@ -32,7 +32,7 @@ class Welt {
 			}
 		}
 		
-
+		
 
 };
 
@@ -54,15 +54,15 @@ public:
 		return screen_height / hoehe * h_faktor;
 	}
 
+	// copied
+		
 	bool is_hit(Hindernis stein) {
 
-	if (((x_pos - stein.x_pos - (breite / 2) - (stein.breite / 2)) == 0) && ((y_pos - stein.y_pos - (hoehe / 2) - (stein.hoehe / 2)) == 0)) {
+		if (((x_pos - stein.x_pos - (breite / 2) - (stein.breite / 2)) == 0) && ((y_pos - stein.y_pos - (hoehe / 2) - (stein.hoehe / 2)) == 0)) {
 			return true;
 		}
 		return false;
 	}
-		
-
 	
 };
 
@@ -79,6 +79,8 @@ public:
 			x_pos = x_pos + vel_x;
 		}
 	}
+
+	
 
 	//std::vector<Kugel> kugelList; //Liste von Kugeln
 
@@ -104,7 +106,12 @@ public:
 	int random_xpos() {
 		this->x_pos = Gosu::random(0,screen_width);
 		return this->x_pos;
+
 	}
+
+
+
+
 private:
 	
 };
@@ -232,6 +239,7 @@ public:
 			// Führen Sie das Spiel-Update nur aus, wenn es nicht pausiert ist.
 			// Bewegung Spieler
 			spieler_1.move();
+			
 
 			if (Gosu::Input::down(Gosu::KB_P) && !isPauseKeyDown) // Prüfen Taste "P", um das Spiel zu pausieren
 			{
@@ -263,7 +271,7 @@ public:
 			}
 		}
 
-		if (Gosu::Input::down(Gosu::KB_ESCAPE)) {
+		if (Gosu::Input::down(Gosu::KB_ESCAPE) || spieler_1.is_hit(stein_1) ) {
 			close(); // Beendet das Spiel.
 		}
 		
