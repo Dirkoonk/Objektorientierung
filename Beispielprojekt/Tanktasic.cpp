@@ -64,7 +64,7 @@ public:
 
 	bool is_hit(Objekte stein) {
 
-	if (((x_pos - stein.x_pos - (r_breite() / 2) - (stein.r_breite() / 2)) <= 0) && ((y_pos - stein.y_pos - (r_hoehe() / 2) - (stein.r_hoehe() / 2)) <= 0)) {
+	if ((x_pos - stein.x_pos - (r_breite() / 2) - (stein.r_breite() / 2) <= 0) && ((y_pos - stein.y_pos - (r_hoehe() / 2) - (stein.r_hoehe() / 2)) <= 0)) {
 			return true;
 		}
 		return false;
