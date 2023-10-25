@@ -93,7 +93,7 @@ public:
 
 	}
 	int random_xpos() {
-		this->x_pos = Gosu::random(0,screen);
+		this->x_pos = Gosu::random(0,screen_width);
 		return this->x_pos;
 	}
 private:
