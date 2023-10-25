@@ -104,13 +104,13 @@ public:
 		}
 		
 		if (this->y_pos > screen_height) {
-			this->x_pos = Gosu::random(0, screen_width);
+			this->x_pos = int(Gosu::random(0, screen_width));
 			this->y_pos = 0.0;
 		}
 
 	}
 	int random_xpos() {
-		this->x_pos = Gosu::random(0,screen_width);
+		this->x_pos = int(Gosu::random(0,screen_width));
 		return this->x_pos;
 
 	}
