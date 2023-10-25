@@ -54,9 +54,7 @@ public:
 		return screen_height / hoehe * h_faktor;
 	}
 
-	// copied
-		
-	bool is_hit(Hindernis stein) {
+	bool is_hit(Objekte stein) {
 
 		if (((x_pos - stein.x_pos - (breite / 2) - (stein.breite / 2)) == 0) && ((y_pos - stein.y_pos - (hoehe / 2) - (stein.hoehe / 2)) == 0)) {
 			return true;
