@@ -63,10 +63,10 @@ public:
 	int score; // Gibt den Score an 
 
 	void move() {
-		if (Gosu::Input::down(Gosu::KB_LEFT) && !(x_pos <= 0)) {
+		if( ( Gosu::Input::down(Gosu::KB_A) || Gosu::Input::down(Gosu::KB_LEFT) )  && !(x_pos <= 0) ){
 			x_pos = x_pos - vel_x;
 		}
-		if (Gosu::Input::down(Gosu::KB_RIGHT) && !(x_pos >= screen_width - breite * w_scale())) {
+		if( ( Gosu::Input::down(Gosu::KB_D) || Gosu::Input::down(Gosu::KB_RIGHT) ) && !(x_pos >= screen_width - breite * w_scale()) ){
 			x_pos = x_pos + vel_x;
 		}
 	}
