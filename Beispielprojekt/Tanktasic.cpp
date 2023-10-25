@@ -46,6 +46,7 @@ public:
 	int hoehe;
 	double w_faktor;
 	double h_faktor;
+	
 
 	double w_scale() {
 		return screen_width / breite * w_faktor;
@@ -54,11 +55,16 @@ public:
 		return screen_height / hoehe * h_faktor;
 	}
 
-	// copied
-		
+	double r_breite() {
+		return breite * w_scale();
+	}  
+	double r_hoehe() {
+		return hoehe * h_scale();
+	} 
+
 	bool is_hit(Objekte stein) {
 
-		if (((x_pos - stein.x_pos - (breite / 2) - (stein.breite / 2)) == 0) && ((y_pos - stein.y_pos - (hoehe / 2) - (stein.hoehe / 2)) == 0)) {
+	if (((x_pos - stein.x_pos - (r_breite() / 2) - (stein.r_breite() / 2)) <= 0) && ((y_pos - stein.y_pos - (r_hoehe() / 2) - (stein.r_hoehe() / 2)) <= 0)) {
 			return true;
 		}
 		return false;
@@ -258,6 +264,11 @@ public:
 			welt.move();
 
 			stein_1.move(welt.speed);
+
+			if (spieler_1.is_hit(stein_1)) {
+				close();
+			}
+			
 		}
 		else {
 			if (Gosu::Input::down(Gosu::KB_P) && !isPauseKeyDown) // Prüfen Taste "P", um das Spiel fortzusetzen
