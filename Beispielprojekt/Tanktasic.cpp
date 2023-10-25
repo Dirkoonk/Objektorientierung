@@ -32,7 +32,7 @@ class Welt {
 			}
 		}
 		
-
+		
 
 };
 
@@ -69,8 +69,6 @@ public:
 		}
 		return false;
 	}
-		
-
 	
 };
 
@@ -87,6 +85,8 @@ public:
 			x_pos = x_pos + vel_x;
 		}
 	}
+
+	
 
 	//std::vector<Kugel> kugelList; //Liste von Kugeln
 
@@ -112,7 +112,12 @@ public:
 	int random_xpos() {
 		this->x_pos = Gosu::random(0,screen_width);
 		return this->x_pos;
+
 	}
+
+
+
+
 private:
 	
 };
@@ -240,6 +245,7 @@ public:
 			// Führen Sie das Spiel-Update nur aus, wenn es nicht pausiert ist.
 			// Bewegung Spieler
 			spieler_1.move();
+			
 
 			if (Gosu::Input::down(Gosu::KB_P) && !isPauseKeyDown) // Prüfen Taste "P", um das Spiel zu pausieren
 			{
@@ -276,7 +282,7 @@ public:
 			}
 		}
 
-		if (Gosu::Input::down(Gosu::KB_ESCAPE)) {
+		if (Gosu::Input::down(Gosu::KB_ESCAPE) || spieler_1.is_hit(stein_1) ) {
 			close(); // Beendet das Spiel.
 		}
 		
