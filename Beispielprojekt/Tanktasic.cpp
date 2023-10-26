@@ -78,6 +78,7 @@ public:
 class Spieler : public Objekte{
 public: 
 	int score; // Gibt den Score an 
+	int leben = 0; 
 
 	void move() {
 		if( ( Gosu::Input::down(Gosu::KB_A) || Gosu::Input::down(Gosu::KB_LEFT) )  && !(x_pos <= 0) ){
@@ -203,6 +204,7 @@ public:
 		spieler_1.w_faktor = 0.1;
 		spieler_1.vel_x = 5; // Panzer Geschwindigkeit
 		spieler_1.x_pos = screen_width / 2 - (spieler_1.breite * spieler_1.w_scale())/2; // Panzer startet in der Mitte des Screen
+		spieler_1.leben = 3; // Anzahl Leben (Maximal 3 wegen HUD) 
 		
 		//versuch objekte zu verwenden
 		stein_1.breite = 281;//breite Bild
@@ -230,73 +232,41 @@ public:
 
 	void draw() override
 	{
-		
+		// Bild passt sich an Monitor an 
+		Bild.draw(0.0, welt.y, 0.0, welt.scale_w(), welt.scale_h());
+		Bild.draw(0.0, welt.y - screen_height + 5, 0.0, welt.scale_w(), welt.scale_h());
 
-		if (!isPaused && !GameOver)
-		{
-			
+		//	position Panzer   //damit Panzer auf X-Achse ganz zu sehen ist 
+		Tank1.draw(spieler_1.x_pos, screen_height - (spieler_1.hoehe * spieler_1.h_scale()), 1, spieler_1.w_scale(), spieler_1.h_scale());
 
+		//Gegenstände
+		Stein.draw(stein_1.x_pos, stein_1.y_pos, 2, stein_1.w_scale(), stein_1.h_scale());
 
-			// Bild passt sich an Monitor an 
-			Bild.draw(0.0, welt.y, 0.0, welt.scale_w(), welt.scale_h());
-			Bild.draw(0.0, welt.y - screen_height + 5, 0.0, welt.scale_w(), welt.scale_h());
+		// Score
+		myfont.draw_text("Score:" + to_string(spieler_1.score), 0, 20, 4, Score_x_scale, Score_y_scale, Gosu::Color::BLACK);
 
-					//	position Panzer   //damit Panzer auf X-Achse ganz zu sehen ist 
-			Tank1.draw(spieler_1.x_pos, screen_height - (spieler_1.hoehe * spieler_1.h_scale()), 0.0, spieler_1.w_scale(), spieler_1.h_scale());
+		//HUD Not_Paused 
 
-			//Gegenstände
-			Stein.draw(stein_1.x_pos, stein_1.y_pos, 0.0, stein_1.w_scale(), stein_1.h_scale());
+		if (!isPaused && !GameOver && spieler_1.leben >= 3){ // Hud Max LP Non Paused
+			Hud_MaxHP_NON_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h());}
+		else if (!isPaused && !GameOver && spieler_1.leben == 2) { // Hud V7 LP Non Paused
+			Hud_V7HP_NON_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h());}
+		else if (!isPaused && !GameOver && spieler_1.leben == 1) { // Hud V3 LP Non Paused
+			Hud_V3HP_NON_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h());}
 
-			//HUD
-			Hud_MaxHP_NON_Paused.draw(0.0, 0.0, 0.0, welt.scale_w(), welt.scale_h());
-			
-			
-			// Score
-			myfont.draw_text("Score:" + to_string(spieler_1.score), 0, 20, 0, Score_x_scale, Score_y_scale, Gosu::Color::BLACK);
+		//HUD Paused 
 
+		else if (isPaused && !GameOver && spieler_1.leben >= 3) { // Hud Max LP Non Paused
+			Hud_MaxHP_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h());}
+		else if (isPaused && !GameOver && spieler_1.leben == 2) { //Hud V7 LP Paused
+			Hud_V7HP_Paused.draw(0.0, 0.0, 0.0, welt.scale_w(), welt.scale_h());}
+		else if (isPaused && !GameOver && spieler_1.leben == 1) { // Hud V3 LP Non Paused
+			Hud_V3HP_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h());}
 
-			
-		}
+		//HUD Game-Over
 		else if (GameOver) { //Game Over HUD
-			// Bild passt sich an Monitor an 
-			Bild.draw(0.0, welt.y, 0.0, welt.scale_w(), welt.scale_h());
-			Bild.draw(0.0, welt.y - screen_height + 5, 0.0, welt.scale_w(), welt.scale_h());
-
-			//	position Panzer   //damit Panzer auf X-Achse ganz zu sehen ist 
-			Tank1.draw(spieler_1.x_pos, screen_height - (spieler_1.hoehe * spieler_1.h_scale()), 0.0, spieler_1.w_scale(), spieler_1.h_scale());
-
-			//Gegenstände
-			Stein.draw(stein_1.x_pos, stein_1.y_pos, 0.0, stein_1.w_scale(), stein_1.h_scale());
-
-			//HUD
-			HUD_GameOver.draw(0.0, 0.0, 0.0, welt.scale_w(), welt.scale_h());
-
-			// Score
-			myfont.draw_text("Score:" + to_string(spieler_1.score), 0, 20, 0, Score_x_scale, Score_y_scale, Gosu::Color::BLACK);
-		}
-		else if (!GameOver)
-		{
-			
-
-			// Bild passt sich an Monitor an 
-			Bild.draw(0.0, welt.y, 0.0, welt.scale_w(), welt.scale_h());
-			Bild.draw(0.0, welt.y - screen_height + 5, 0.0, welt.scale_w(), welt.scale_h());
-
-			//	position Panzer   //damit Panzer auf X-Achse ganz zu sehen ist 
-			Tank1.draw(spieler_1.x_pos, screen_height - (spieler_1.hoehe * spieler_1.h_scale()), 0.0, spieler_1.w_scale(), spieler_1.h_scale());
-
-			//Gegenstände
-			Stein.draw(stein_1.x_pos, stein_1.y_pos, 0.0, stein_1.w_scale(), stein_1.h_scale());
-
-			//HUD
-			Hud_MaxHP_Paused.draw(0.0, 0.0, 0.0, welt.scale_w(), welt.scale_h());
-
-			// Score
-			myfont.draw_text("Score:" + to_string(spieler_1.score), 0, 20, 0, Score_x_scale, Score_y_scale, Gosu::Color::BLACK);
-
-
-			
-		}
+			HUD_GameOver.draw(0.0, 0.0, 0.0, welt.scale_w(), welt.scale_h());}
+		
 	}
 
 	// Wird 60x pro Sekunde aufgerufen
@@ -334,8 +304,17 @@ public:
 
 
 				if (spieler_1.is_hit(stein_1)) {
-					GameOver = true; 
+					// Leben abziehen 
+					spieler_1.leben = spieler_1.leben -1; 
 
+					//Gegenstand weg Porten
+					stein_1.x_pos = Gosu::random(0, screen_width);
+					stein_1.y_pos = 0;
+
+					// Wenn leben =0 Game Over
+					if (spieler_1.leben <= 0) {
+						GameOver = true;
+					}
 				}
 
 			}
