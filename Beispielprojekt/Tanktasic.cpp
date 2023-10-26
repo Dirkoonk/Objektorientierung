@@ -4,7 +4,9 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
+
 using namespace std; 
+
 
 //Start Variablen Global (Performance)
 
@@ -39,7 +41,7 @@ class Welt {
 class Objekte {
 public: 
 	// Positionen vom Objekt
-	float x_pos , vel_x; // Position + Geschwindigkeit 
+	int x_pos , vel_x; // Position + Geschwindigkeit 
 	float y_pos, vel_y; // Position + Geschwindigkeit 
 	float angle; 
 	int breite;
@@ -64,7 +66,7 @@ public:
 
 	bool is_hit(Objekte stein) {
 
-	if ((x_pos - stein.x_pos - (r_breite() / 2) - (stein.r_breite() / 2) <= 0) && ((y_pos - stein.y_pos - (r_hoehe() / 2) - (stein.r_hoehe() / 2)) <= 0)) {
+	if ((abs(x_pos - stein.x_pos) - (r_breite() / 2) - (stein.r_breite() / 2) <= 0) && (stein.y_pos>=(screen_height-r_hoehe()))) {
 			return true;
 		}
 		return false;
@@ -104,7 +106,7 @@ public:
 		}
 		
 		if (this->y_pos > screen_height) {
-			this->x_pos = int(Gosu::random(0, screen_width));
+			this->x_pos = Gosu::random(0, screen_width-breite);
 			this->y_pos = 0.0;
 		}
 
@@ -192,6 +194,7 @@ public:
 		stein_1.hoehe = 694;//höhe Bild
 		stein_1.w_faktor = 0.025;
 		stein_1.h_faktor = 0.05;
+		srand(0);
 		stein_1.x_pos = Gosu::random(0,screen_width);
 		stein_1.y_pos = 0;
 
@@ -265,6 +268,8 @@ public:
 
 			stein_1.move(welt.speed);
 
+			
+
 			if (spieler_1.is_hit(stein_1)) {
 				close();
 			}
@@ -282,7 +287,7 @@ public:
 			}
 		}
 
-		if (Gosu::Input::down(Gosu::KB_ESCAPE) || spieler_1.is_hit(stein_1) ) {
+		if (Gosu::Input::down(Gosu::KB_ESCAPE)  ) {
 			close(); // Beendet das Spiel.
 		}
 		
