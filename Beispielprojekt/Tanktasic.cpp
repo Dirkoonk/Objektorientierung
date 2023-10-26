@@ -64,7 +64,9 @@ public:
 
 	bool is_hit(Objekte stein) {
 
-	if (((x_pos - stein.x_pos - (r_breite() / 2) - (stein.r_breite() / 2)) <= 0) && ((y_pos - stein.y_pos - (r_hoehe() / 2) - (stein.r_hoehe() / 2)) <= 0)) {
+	if ( 
+		(  (x_pos - stein.x_pos - r_breite()/ 2 - stein.r_breite() / 2) <= 0)) // && ((y_pos - stein.y_pos - r_hoehe()/2 - stein.r_hoehe()/2) <= 0) ) 
+		 {
 			return true;
 		}
 		return false;
@@ -245,6 +247,8 @@ public:
 			// Führen Sie das Spiel-Update nur aus, wenn es nicht pausiert ist.
 			// Bewegung Spieler
 			spieler_1.move();
+			stein_1.move(welt.speed);
+			welt.move();
 			
 
 			if (Gosu::Input::down(Gosu::KB_P) && !isPauseKeyDown) // Prüfen Taste "P", um das Spiel zu pausieren
@@ -261,9 +265,9 @@ public:
 			spieler_1.score = spieler_1.score + welt.speed;
 
 			// Bewegung der Welt
-			welt.move();
+			
 
-			stein_1.move(welt.speed);
+			
 
 			if (spieler_1.is_hit(stein_1)) {
 				close();
