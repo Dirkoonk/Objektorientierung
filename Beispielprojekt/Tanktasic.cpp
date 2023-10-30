@@ -9,7 +9,7 @@ using namespace std;
 
 
 //Start Variablen Global (Performance)
-
+bool GameOver = false; 
 int  screen_width = Gosu::screen_width(); 
 double  screen_height = Gosu::screen_height(); 
 
@@ -79,6 +79,7 @@ public:
 class Spieler : public Objekte{
 public: 
 	int score; // Gibt den Score an 
+	int leben = 0; 
 
 	void move() {
 		if( ( Gosu::Input::down(Gosu::KB_A) || Gosu::Input::down(Gosu::KB_LEFT) )  && !(x_pos <= 0) ){
@@ -163,8 +164,13 @@ public:
 	bool isPauseKeyDown;
 
 	// GUI - HUD
-	Gosu::Image ESC_Button; 
-	Gosu::Image Pause_Button; 
+	Gosu::Image Hud_MaxHP_Paused;
+	Gosu::Image Hud_MaxHP_NON_Paused;
+	Gosu::Image Hud_V7HP_Paused;
+	Gosu::Image Hud_V7HP_NON_Paused;
+	Gosu::Image Hud_V3HP_Paused;
+	Gosu::Image Hud_V3HP_NON_Paused;
+	Gosu::Image HUD_GameOver;
 
 	//Skalierung des Scores 
 	double Score_x_scale = screen_width / 600; // 200 = gewünschte Score Größe x Wert 
@@ -173,12 +179,22 @@ public:
 
 	GameWindow()
 		: Window(screen_width, screen_height, true),
-		Bild("media/road.png"),y(0.0),
+		//Hintergrund
+		Bild("media/road.png"), y(0.0),
+		//Spieler
 		Tank1("media/tank.png"), myfont(20),
-		Stein("media/stein.png"),
-		ESC_Button("media/ESC-Button.png"),
-		Pause_Button("media/PauseButton.png")
-		//Kugel("media/kugel.png")
+		//Gegenstände
+			Stein("media/stein.png"),
+			//Kugel("media/kugel.png"),
+		//HUD
+		Hud_MaxHP_Paused("media/HUD/Hud_MaxHP_Paused.png"),
+		Hud_MaxHP_NON_Paused("media/HUD/Hud_MaxHP_NON_Paused.png"),
+		Hud_V7HP_Paused("media/HUD/Hud_V7HP_Paused.png"),
+		Hud_V7HP_NON_Paused("media/HUD/Hud_V7HP_NON_Paused.png"),
+		Hud_V3HP_Paused("media/HUD/Hud_V3HP_Paused.png"),
+		Hud_V3HP_NON_Paused("media/HUD/Hud_V3HP_NON_Paused.png"),
+		HUD_GameOver("media/HUD/GameOver.png")
+		
 		
 	{
 		set_caption("Tanktastic");
@@ -189,6 +205,7 @@ public:
 		spieler_1.w_faktor = 0.1;
 		spieler_1.vel_x = 5; // Panzer Geschwindigkeit
 		spieler_1.x_pos = screen_width / 2 - (spieler_1.breite * spieler_1.w_scale())/2; // Panzer startet in der Mitte des Screen
+		spieler_1.leben = 3; // Anzahl Leben (Maximal 3 wegen HUD) 
 		
 		//versuch objekte zu verwenden
 		stein_1.breite = 281;//breite Bild
@@ -216,84 +233,115 @@ public:
 
 	void draw() override
 	{
-		ESC_Button.draw(10, 10, 0.0); 
-		Pause_Button.draw(20, 10, 0.0); 
+		// Bild passt sich an Monitor an 
+		Bild.draw(0.0, welt.y, 0.0, welt.scale_w(), welt.scale_h());
+		Bild.draw(0.0, welt.y - screen_height + 5, 0.0, welt.scale_w(), welt.scale_h());
 
-		if (!isPaused)
-		{
-			// Bild passt sich an Monitor an 
-			Bild.draw(0.0, welt.y, 0.0, welt.scale_w(), welt.scale_h());
-			Bild.draw(0.0, welt.y - screen_height + 5, 0.0, welt.scale_w(), welt.scale_h());
+		//	position Panzer   //damit Panzer auf X-Achse ganz zu sehen ist 
+		Tank1.draw(spieler_1.x_pos, screen_height - (spieler_1.hoehe * spieler_1.h_scale()), 1, spieler_1.w_scale(), spieler_1.h_scale());
 
-					//	position Panzer   //damit Panzer auf X-Achse ganz zu sehen ist 
-			Tank1.draw(spieler_1.x_pos, screen_height - (spieler_1.hoehe * spieler_1.h_scale()), 0.0, spieler_1.w_scale(), spieler_1.h_scale());
+		//Gegenstände
+		Stein.draw(stein_1.x_pos, stein_1.y_pos, 2, stein_1.w_scale(), stein_1.h_scale());
 
+		// Score
+		myfont.draw_text("Score:" + to_string(spieler_1.score), 0, 20, 4, Score_x_scale, Score_y_scale, Gosu::Color::BLACK);
 
-			// Score
-			myfont.draw_text("Score:    " + to_string(spieler_1.score), 20, 20, 0, Score_x_scale, Score_y_scale, Gosu::Color::BLACK);
+		//HUD Not_Paused 
 
+		if (!isPaused && !GameOver && spieler_1.leben >= 3){ // Hud Max LP Non Paused
+			Hud_MaxHP_NON_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h());}
+		else if (!isPaused && !GameOver && spieler_1.leben == 2) { // Hud V7 LP Non Paused
+			Hud_V7HP_NON_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h());}
+		else if (!isPaused && !GameOver && spieler_1.leben == 1) { // Hud V3 LP Non Paused
+			Hud_V3HP_NON_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h());}
 
-			//Gegenstände
-			Stein.draw(stein_1.x_pos , stein_1.y_pos, 0.0, stein_1.w_scale(), stein_1.h_scale());
-		}
-		else
-		{
-			myfont.draw_text("Pause - Druecke \"P\"", screen_width/2, screen_height/2, 0, 1, 1, Gosu::Color::WHITE);
-		}
+		//HUD Paused 
+
+		else if (isPaused && !GameOver && spieler_1.leben >= 3) { // Hud Max LP Non Paused
+			Hud_MaxHP_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h());}
+		else if (isPaused && !GameOver && spieler_1.leben == 2) { //Hud V7 LP Paused
+			Hud_V7HP_Paused.draw(0.0, 0.0, 0.0, welt.scale_w(), welt.scale_h());}
+		else if (isPaused && !GameOver && spieler_1.leben == 1) { // Hud V3 LP Non Paused
+			Hud_V3HP_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h());}
+
+		//HUD Game-Over
+		else if (GameOver) { //Game Over HUD
+			HUD_GameOver.draw(0.0, 0.0, 0.0, welt.scale_w(), welt.scale_h());}
+		
 	}
 
 	// Wird 60x pro Sekunde aufgerufen
 	void update() override
 	{
-		if (!isPaused) {
-			// Führen Sie das Spiel-Update nur aus, wenn es nicht pausiert ist.
-			// Bewegung Spieler
-			spieler_1.move();
-			
 
-			if (Gosu::Input::down(Gosu::KB_P) && !isPauseKeyDown) // Prüfen Taste "P", um das Spiel zu pausieren
+
+			if (!isPaused && !GameOver) {
+				// Führen Sie das Spiel-Update nur aus, wenn es nicht pausiert ist.
+				// Bewegung Spieler
+				welt.speed = 5;
+				spieler_1.move();
+				stein_1.move(welt.speed);
+				welt.move();
+
+
+				if (Gosu::Input::down(Gosu::KB_P) && !isPauseKeyDown) // Prüfen Taste "P", um das Spiel zu pausieren
+				{
+					isPaused = true;
+					isPauseKeyDown = true;
+				}
+				else if (!Gosu::Input::down(Gosu::KB_P))
+				{
+					isPauseKeyDown = false;
+				}
+
+				// Score hochzählen
+				spieler_1.score = spieler_1.score + welt.speed;
+
+				// Bewegung der Welt
+
+
+
+
+
+
+				if (spieler_1.is_hit(stein_1)) {
+					// Leben abziehen 
+					spieler_1.leben = spieler_1.leben -1; 
+
+					//Gegenstand weg Porten
+					stein_1.x_pos = Gosu::random(0, screen_width);
+					stein_1.y_pos = 0;
+
+					// Wenn leben =0 Game Over
+					if (spieler_1.leben <= 0) {
+						GameOver = true;
+					}
+				}
+
+			}
+			else if (!GameOver)
 			{
-				isPaused = true;
-				isPauseKeyDown = true;
+				welt.speed = 0;
+				if (Gosu::Input::down(Gosu::KB_P) && !isPauseKeyDown) // Prüfen Taste "P", um das Spiel fortzusetzen
+				{
+					isPaused = false;
+					isPauseKeyDown = true;
+				}
+				else if (!Gosu::Input::down(Gosu::KB_P))
+				{
+					isPauseKeyDown = false;
+				}
 			}
-			else if (!Gosu::Input::down(Gosu::KB_P))
-			{
-				isPauseKeyDown = false;
+
+			if (Gosu::Input::down(Gosu::KB_ESCAPE)) {
+				close(); // Beendet das Spiel.
 			}
 
-			// Score hochzählen
-			spieler_1.score = spieler_1.score + welt.speed;
 
-			// Bewegung der Welt
-			welt.move();
-
-			stein_1.move(welt.speed);
-
-			
-
-			if (spieler_1.is_hit(stein_1)) {
-				close();
-			}
-			
 		}
-		else {
-			if (Gosu::Input::down(Gosu::KB_P) && !isPauseKeyDown) // Prüfen Taste "P", um das Spiel fortzusetzen
-			{
-				isPaused = false;
-				isPauseKeyDown = true;
-			}
-			else if (!Gosu::Input::down(Gosu::KB_P))
-			{
-				isPauseKeyDown = false;
-			}
-		}
 
-		if (Gosu::Input::down(Gosu::KB_ESCAPE)  ) {
-			close(); // Beendet das Spiel.
-		}
-		
-		 
-	}
+
+	
 };
 
 
