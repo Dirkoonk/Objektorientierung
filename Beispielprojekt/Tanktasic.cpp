@@ -113,10 +113,23 @@ public:
 		}
 
 	}
-	int random_xpos() {
-		this->x_pos = int(Gosu::random(0,screen_width));
-		return this->x_pos;
-
+	Hindernis() {
+		this->breite = 100;
+		this->hoehe = 100;
+		this->w_faktor = 0.05;
+		this->h_faktor = 0.05;
+		srand(0);
+		this->x_pos = Gosu::random(0, screen_width);
+		this->y_pos = 0;
+	}
+	Hindernis(int breite, int hoehe, double w_faktor, double h_faktor) {
+		this->breite = breite;
+		this->hoehe = hoehe;
+		this->w_faktor = w_faktor;
+		this->h_faktor = h_faktor;
+		srand(0);
+		this->x_pos = Gosu::random(0, screen_width);
+		this->y_pos = Gosu::random(0,screen_height/2);
 	}
 
 
@@ -138,6 +151,10 @@ class GameWindow : public Gosu::Window
 public:
     Spieler spieler_1;
 	Hindernis stein_1;
+	Hindernis stein_2;
+	Hindernis stein_3;
+	Hindernis stein_4;
+	Hindernis stein_5;
 	Gosu::Image Tank1;
 	//ein Welt Objekt wird erzeugt
 	Welt welt;
@@ -155,6 +172,10 @@ public:
 	//Stein
 	
 	Gosu::Image Stein; 
+	Gosu::Image Stein1;
+	Gosu::Image Stein2;
+	Gosu::Image Stein3;
+	Gosu::Image Stein4;
 
 	//Gosu::Image Kugel;
 
@@ -185,6 +206,15 @@ public:
 		Tank1("media/tank.png"), myfont(20),
 		//Gegenstände
 			Stein("media/stein.png"),
+			Stein1("media/stein.png"),
+			Stein2("media/stein.png"),
+			Stein3("media/stein.png"),
+			Stein4("media/stein.png"),
+			stein_1(281, 694, 0.025, 0.05),
+			stein_2(281, 694, 0.025, 0.05),
+			stein_3(281, 694, 0.025, 0.05),
+			stein_4(281, 694, 0.025, 0.05),
+			stein_5(281, 694, 0.025, 0.05),
 			//Kugel("media/kugel.png"),
 		//HUD
 		Hud_MaxHP_Paused("media/HUD/Hud_MaxHP_Paused.png"),
@@ -206,15 +236,7 @@ public:
 		spieler_1.vel_x = 5; // Panzer Geschwindigkeit
 		spieler_1.x_pos = screen_width / 2 - (spieler_1.breite * spieler_1.w_scale())/2; // Panzer startet in der Mitte des Screen
 		spieler_1.leben = 3; // Anzahl Leben (Maximal 3 wegen HUD) 
-		
-		//versuch objekte zu verwenden
-		stein_1.breite = 281;//breite Bild
-		stein_1.hoehe = 694;//höhe Bild
-		stein_1.w_faktor = 0.025;
-		stein_1.h_faktor = 0.05;
-		srand(0);
-		stein_1.x_pos = Gosu::random(0,screen_width);
-		stein_1.y_pos = 0;
+
 
 		welt.speed = 5;
 		welt.bild_h = 602.0;
@@ -242,6 +264,17 @@ public:
 
 		//Gegenstände
 		Stein.draw(stein_1.x_pos, stein_1.y_pos, 2, stein_1.w_scale(), stein_1.h_scale());
+
+		//Schwierigkeit erhöhen
+		if (spieler_1.score > 3000) {
+			Stein1.draw(stein_2.x_pos, stein_2.y_pos, 2, stein_2.w_scale(), stein_2.h_scale());
+		}
+		if (spieler_1.score > 5000) {
+			Stein2.draw(stein_3.x_pos, stein_3.y_pos, 2, stein_3.w_scale(), stein_3.h_scale());
+		}
+		if (spieler_1.score > 10000) {
+			Stein3.draw(stein_4.x_pos, stein_4.y_pos, 2, stein_4.w_scale(), stein_4.h_scale());
+		}
 
 		// Score
 		myfont.draw_text("Score:" + to_string(spieler_1.score), 0, 20, 4, Score_x_scale, Score_y_scale, Gosu::Color::BLACK);
@@ -281,6 +314,10 @@ public:
 				welt.speed = 5;
 				spieler_1.move();
 				stein_1.move(welt.speed);
+				stein_2.move(welt.speed);
+				stein_3.move(welt.speed);
+				stein_4.move(welt.speed);
+				stein_5.move(welt.speed);
 				welt.move();
 
 
