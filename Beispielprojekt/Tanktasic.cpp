@@ -20,6 +20,7 @@ class Welt {
 		double bild_w;
 		double y;
 
+
 		double scale_h() {
 			return screen_height / bild_h;
 		}
