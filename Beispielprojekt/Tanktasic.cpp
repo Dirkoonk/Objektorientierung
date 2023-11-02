@@ -43,7 +43,7 @@ class Objekte {
 public: 
 	// Positionen vom Objekt
 	int x_pos , vel_x; // Position + Geschwindigkeit 
-	float y_pos, vel_y; // Position + Geschwindigkeit 
+	int y_pos, vel_y; // Position + Geschwindigkeit 
 	float angle; 
 	int breite;
 	int hoehe;
