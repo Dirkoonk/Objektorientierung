@@ -68,6 +68,9 @@ public:
 	bool is_hit(Objekte stein) {
 
 	if ((abs(x_pos - stein.x_pos) - (r_breite() / 2) - (stein.r_breite() / 2) <= 0) && (stein.y_pos>=(screen_height-r_hoehe()))) {
+
+			stein.x_pos = rand() % (screen_width - (this->breite / 2));
+			stein.y_pos = 0;
 			return true;
 		}
 		return false;
@@ -276,7 +279,7 @@ public:
 			Stein4.draw(stein_4.x_pos, stein_4.y_pos, 2, stein_4.w_scale(), stein_4.h_scale());
 		}
 		if (spieler_1.score > 15000) {
-			Stein5.draw(stein_4.x_pos, stein_4.y_pos, 2, stein_4.w_scale(), stein_4.h_scale());
+			Stein5.draw(stein_5.x_pos, stein_5.y_pos, 2, stein_5.w_scale(), stein_5.h_scale());
 		}
 
 		// Score
