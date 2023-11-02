@@ -119,7 +119,7 @@ public:
 		this->w_faktor = 0.05;
 		this->h_faktor = 0.05;
 		srand(0);
-		this->x_pos = Gosu::random(0, screen_width);
+		this->x_pos = rand() % (screen_width - (this->breite / 2));
 		this->y_pos = 0;
 	}
 	Hindernis(int breite, int hoehe, double w_faktor, double h_faktor) {
@@ -127,9 +127,9 @@ public:
 		this->hoehe = hoehe;
 		this->w_faktor = w_faktor;
 		this->h_faktor = h_faktor;
-		srand(0);
-		this->x_pos = Gosu::random(0, screen_width);
-		this->y_pos = Gosu::random(0,screen_height/2);
+		srand(time(0));
+		this->x_pos = rand() % (screen_width-(this->breite/2));
+		this->y_pos = 0;
 	}
 
 
@@ -171,11 +171,11 @@ public:
 	// Gegenstände
 	//Stein
 	
-	Gosu::Image Stein; 
-	Gosu::Image Stein1;
+	Gosu::Image Stein1; 
 	Gosu::Image Stein2;
 	Gosu::Image Stein3;
 	Gosu::Image Stein4;
+	Gosu::Image Stein5;
 
 	//Gosu::Image Kugel;
 
@@ -205,11 +205,11 @@ public:
 		//Spieler
 		Tank1("media/tank.png"), myfont(20),
 		//Gegenstände
-			Stein("media/stein.png"),
 			Stein1("media/stein.png"),
 			Stein2("media/stein.png"),
 			Stein3("media/stein.png"),
 			Stein4("media/stein.png"),
+			Stein5("media/stein.png"),
 			stein_1(281, 694, 0.025, 0.05),
 			stein_2(281, 694, 0.025, 0.05),
 			stein_3(281, 694, 0.025, 0.05),
@@ -263,17 +263,20 @@ public:
 		Tank1.draw(spieler_1.x_pos, screen_height - (spieler_1.hoehe * spieler_1.h_scale()), 1, spieler_1.w_scale(), spieler_1.h_scale());
 
 		//Gegenstände
-		Stein.draw(stein_1.x_pos, stein_1.y_pos, 2, stein_1.w_scale(), stein_1.h_scale());
+		Stein1.draw(stein_1.x_pos, stein_1.y_pos, 2, stein_1.w_scale(), stein_1.h_scale());
 
 		//Schwierigkeit erhöhen
 		if (spieler_1.score > 3000) {
-			Stein1.draw(stein_2.x_pos, stein_2.y_pos, 2, stein_2.w_scale(), stein_2.h_scale());
+			Stein2.draw(stein_2.x_pos, stein_2.y_pos, 2, stein_2.w_scale(), stein_2.h_scale());
 		}
 		if (spieler_1.score > 5000) {
-			Stein2.draw(stein_3.x_pos, stein_3.y_pos, 2, stein_3.w_scale(), stein_3.h_scale());
+			Stein3.draw(stein_3.x_pos, stein_3.y_pos, 2, stein_3.w_scale(), stein_3.h_scale());
 		}
 		if (spieler_1.score > 10000) {
-			Stein3.draw(stein_4.x_pos, stein_4.y_pos, 2, stein_4.w_scale(), stein_4.h_scale());
+			Stein4.draw(stein_4.x_pos, stein_4.y_pos, 2, stein_4.w_scale(), stein_4.h_scale());
+		}
+		if (spieler_1.score > 15000) {
+			Stein5.draw(stein_4.x_pos, stein_4.y_pos, 2, stein_4.w_scale(), stein_4.h_scale());
 		}
 
 		// Score
@@ -312,12 +315,25 @@ public:
 				// Führen Sie das Spiel-Update nur aus, wenn es nicht pausiert ist.
 				// Bewegung Spieler
 				welt.speed = 5;
+
 				spieler_1.move();
+
 				stein_1.move(welt.speed);
-				stein_2.move(welt.speed);
-				stein_3.move(welt.speed);
-				stein_4.move(welt.speed);
-				stein_5.move(welt.speed);
+				
+				if (spieler_1.score > 3000) {
+					stein_2.move(welt.speed);
+				}
+				if (spieler_1.score > 5000) {
+					stein_3.move(welt.speed);
+				}
+				if (spieler_1.score > 10000) {
+					stein_4.move(welt.speed);
+				}
+				if (spieler_1.score > 15000) {
+					stein_5.move(welt.speed);
+				}
+				
+				
 				welt.move();
 
 
@@ -341,7 +357,7 @@ public:
 
 
 
-				if (spieler_1.is_hit(stein_1)) {
+				if (spieler_1.is_hit(stein_1)|| spieler_1.is_hit(stein_2)|| spieler_1.is_hit(stein_3)|| spieler_1.is_hit(stein_4)|| spieler_1.is_hit(stein_5)) {
 					// Leben abziehen 
 					spieler_1.leben = spieler_1.leben -1; 
 
