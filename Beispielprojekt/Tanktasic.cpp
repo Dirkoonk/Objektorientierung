@@ -122,7 +122,7 @@ public:
 		this->w_faktor = 0.05;
 		this->h_faktor = 0.05;
 		srand(0);
-		this->x_pos = rand() % (screen_width - (this->breite / 2));
+		this->x_pos = rand() % (screen_width - (int(this->r_breite())));
 		this->y_pos = 0;
 	}
 	Hindernis(int breite, int hoehe, double w_faktor, double h_faktor) {
@@ -131,7 +131,7 @@ public:
 		this->w_faktor = w_faktor;
 		this->h_faktor = h_faktor;
 		srand(time(0));
-		this->x_pos = rand() % (screen_width-(this->breite/2));
+		this->x_pos = rand() % (screen_width-(int(this->r_breite())));
 		this->y_pos = 0;
 	}
 
