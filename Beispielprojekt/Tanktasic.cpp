@@ -65,9 +65,9 @@ public:
 		return hoehe * h_scale();
 	} 
 
-	bool is_hit(Objekte stein) {
+	bool is_hit(Objekte& stein) {
 
-	if ((abs(x_pos - stein.x_pos) - (r_breite() / 2) - (stein.r_breite() / 2) <= 0) && (stein.y_pos>=(screen_height-r_hoehe()))) {
+	if ((abs(x_pos - stein.x_pos) - (r_breite()/2 ) - (stein.r_breite()/2 ) <= 0) && (stein.y_pos>=(screen_height-r_hoehe()))) {
 
 			stein.x_pos = rand() % (screen_width - (this->breite / 2));
 			stein.y_pos = 0;
@@ -104,7 +104,8 @@ private:
 };
 class Hindernis : public Objekte {// Steht nur im Weg 
 public:
-	void move(double welt_speed) {
+	vector<Hindernis> SteinListe;
+	void move(double& welt_speed) {
 
 		if (this->y_pos <= screen_height) {
 			this->y_pos = y_pos + welt_speed;
@@ -124,6 +125,7 @@ public:
 		srand(0);
 		this->x_pos = rand() % (screen_width - (int(this->r_breite())));
 		this->y_pos = 0;
+		SteinListe.push_back(*this);
 	}
 	Hindernis(int breite, int hoehe, double w_faktor, double h_faktor) {
 		this->breite = breite;
@@ -133,6 +135,7 @@ public:
 		srand(time(0));
 		this->x_pos = rand() % (screen_width-(int(this->r_breite())));
 		this->y_pos = 0;
+		SteinListe.push_back(*this);
 	}
 
 
