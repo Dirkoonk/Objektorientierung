@@ -20,7 +20,6 @@ class Welt {
 		double bild_w;
 		double y;
 
-
 		double scale_h() {
 			return screen_height / bild_h;
 		}
@@ -104,7 +103,7 @@ private:
 };
 class Hindernis : public Objekte {// Steht nur im Weg 
 public:
-	vector<Hindernis> SteinListe;
+	
 	void move(double& welt_speed) {
 
 		if (this->y_pos <= screen_height) {
@@ -115,8 +114,10 @@ public:
 			this->x_pos = Gosu::random(0, screen_width-breite);
 			this->y_pos = 0.0;
 		}
+		
+		}
 
-	}
+	
 	Hindernis() {
 		this->breite = 100;
 		this->hoehe = 100;
@@ -125,7 +126,6 @@ public:
 		srand(0);
 		this->x_pos = rand() % (screen_width - (int(this->r_breite())));
 		this->y_pos = 0;
-		SteinListe.push_back(*this);
 	}
 	Hindernis(int breite, int hoehe, double w_faktor, double h_faktor) {
 		this->breite = breite;
@@ -135,7 +135,6 @@ public:
 		srand(time(0));
 		this->x_pos = rand() % (screen_width-(int(this->r_breite())));
 		this->y_pos = 0;
-		SteinListe.push_back(*this);
 	}
 
 
@@ -144,6 +143,14 @@ public:
 private:
 	
 };
+
+//class Explosion : public Objekte{
+//private:
+
+//public:
+
+//};
+
 class Gegner : public Objekte{ // Kann schieﬂen (evtl. Nur am Bildrand) 
 
 };
@@ -161,9 +168,14 @@ public:
 	Hindernis stein_3;
 	Hindernis stein_4;
 	Hindernis stein_5;
+	vector<Hindernis> SteinListe;
 	Gosu::Image Tank1;
 	//ein Welt Objekt wird erzeugt
 	Welt welt;
+
+	//Explosion ex_klein1;
+	//Explosion ex_mittel1;
+	//Explosion ex_gross1;
 
 	//Hintergrund bild
 	Gosu::Image Bild; 
@@ -182,6 +194,12 @@ public:
 	Gosu::Image Stein3;
 	Gosu::Image Stein4;
 	Gosu::Image Stein5;
+
+	//Explosion Bilder
+
+	Gosu::Image ex_klein;
+	Gosu::Image ex_mittel;
+	Gosu::Image ex_gross;
 
 	//Gosu::Image Kugel;
 
@@ -202,7 +220,6 @@ public:
 	//Skalierung des Scores 
 	double Score_x_scale = screen_width / 600; // 200 = gew¸nschte Score Grˆﬂe x Wert 
 	double Score_y_scale = screen_height / 600;  // 50 gew¸nschte Score Hˆhe y Wert 
- 
 
 	GameWindow()
 		: Window(screen_width, screen_height, true),
@@ -211,18 +228,18 @@ public:
 		//Spieler
 		Tank1("media/tank.png"), myfont(20),
 		//Gegenst‰nde
-			Stein1("media/stein.png"),
-			Stein2("media/stein.png"),
-			Stein3("media/stein.png"),
-			Stein4("media/stein.png"),
-			Stein5("media/stein.png"),
-			stein_1(281, 694, 0.025, 0.05),
-			stein_2(281, 694, 0.025, 0.05),
-			stein_3(281, 694, 0.025, 0.05),
-			stein_4(281, 694, 0.025, 0.05),
-			stein_5(281, 694, 0.025, 0.05),
-			//Kugel("media/kugel.png"),
-		//HUD
+		Stein1("media/stein.png"),
+		Stein2("media/stein.png"),
+		Stein3("media/stein.png"),
+		Stein4("media/stein.png"),
+		Stein5("media/stein.png"),
+		stein_1(281, 694, 0.025, 0.05),
+		stein_2(281, 694, 0.025, 0.05),
+		stein_3(281, 694, 0.025, 0.05),
+		stein_4(281, 694, 0.025, 0.05),
+		stein_5(281, 694, 0.025, 0.05),
+		//Kugel("media/kugel.png"),
+	//HUD
 		Hud_MaxHP_Paused("media/HUD/Hud_MaxHP_Paused.png"),
 		Hud_MaxHP_NON_Paused("media/HUD/Hud_MaxHP_NON_Paused.png"),
 		Hud_V7HP_Paused("media/HUD/Hud_V7HP_Paused.png"),
@@ -230,6 +247,10 @@ public:
 		Hud_V3HP_Paused("media/HUD/Hud_V3HP_Paused.png"),
 		Hud_V3HP_NON_Paused("media/HUD/Hud_V3HP_NON_Paused.png"),
 		HUD_GameOver("media/HUD/GameOver.png")
+		//Explosion
+	//	ex_klein("media/ex/ex_klein.png"),
+	//	ex_mittel("media/ex/ex_mittel.png"),
+	//	ex_gross("media/ex/ex_gross.png")
 		
 		
 	{
@@ -243,13 +264,15 @@ public:
 		spieler_1.x_pos = screen_width / 2 - (spieler_1.breite * spieler_1.w_scale())/2; // Panzer startet in der Mitte des Screen
 		spieler_1.leben = 3; // Anzahl Leben (Maximal 3 wegen HUD) 
 
-
 		welt.speed = 5;
 		welt.bild_h = 602.0;
 		welt.bild_w = 899.0;
 
-	
-	
+		SteinListe.push_back(stein_1);
+		SteinListe.push_back(stein_2);
+		SteinListe.push_back(stein_3);
+		SteinListe.push_back(stein_4);
+		SteinListe.push_back(stein_5);
 	}
 	
 	
@@ -284,7 +307,6 @@ public:
 		if (spieler_1.score > 15000) {
 			Stein5.draw(stein_5.x_pos, stein_5.y_pos, 2, stein_5.w_scale(), stein_5.h_scale());
 		}
-
 		// Score
 		myfont.draw_text("Score:" + to_string(spieler_1.score), 0, 20, 4, Score_x_scale, Score_y_scale, Gosu::Color::BLACK);
 
@@ -309,6 +331,11 @@ public:
 		//HUD Game-Over
 		else if (GameOver) { //Game Over HUD
 			HUD_GameOver.draw(0.0, 0.0, 0.0, welt.scale_w(), welt.scale_h());}
+
+		//Explosion
+		//ex_klein.draw(ex_klein1.x_pos, ex_klein1.y_pos, 2, ex_klein1.w_scale(), ex_klein1.h_scale());
+			
+		
 		
 	}
 
