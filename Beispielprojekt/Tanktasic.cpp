@@ -2,6 +2,8 @@
 #include <Gosu/AutoLink.hpp>
 #include <string.h>
 #include <iostream>
+#include <fstream>
+#include <format>
 #include <thread>
 #include <chrono>
 
@@ -12,6 +14,10 @@ using namespace std;
  
 int screen_width = Gosu::screen_width();
 int screen_height = Gosu::screen_height();
+
+// Textdatei und Variable für den Highscore
+string score_file = "media/Score"; 
+int Highscore; 
 
 class Welt {
 	public: 
@@ -139,6 +145,12 @@ public:
 	void Ein_Leben_Weg() {
 		leben--;
 	}
+	void Max_Leben() {
+		leben = 3;
+	}
+	void Set_Score_to_Zero() {
+		score = 0;
+	}
 
 	//std::vector<Kugel> kugelList; //Liste von Kugeln
 
@@ -206,6 +218,8 @@ class Gegner : public Objekte{ // Kann schießen (evtl. Nur am Bildrand)
 
 class GameWindow : public Gosu::Window
 {
+
+
 	
 
 public:
@@ -281,12 +295,12 @@ public:
 		//Spieler
 		Tank1("media/tank.png"), myfont(20),
 		//Gegenstände
-		Stein1("media/stein.png"),
+		Stein1("media/Barrel-Stein.png"),
 		Stein2("media/stein.png"),
 		Stein3("media/stein.png"),
 		Stein4("media/stein.png"),
 		Stein5("media/stein.png"),
-		stein_1(281, 694, 0.025, 0.05),
+		stein_1(281, 694, 0.025, 0.15),
 		stein_2(281, 694, 0.025, 0.05),
 		stein_3(281, 694, 0.025, 0.05),
 		stein_4(281, 694, 0.025, 0.05),
@@ -299,7 +313,7 @@ public:
 		Hud_V7HP_NON_Paused("media/HUD/Hud_V7HP_NON_Paused.png"),
 		Hud_V3HP_Paused("media/HUD/Hud_V3HP_Paused.png"),
 		Hud_V3HP_NON_Paused("media/HUD/Hud_V3HP_NON_Paused.png"),
-		HUD_GameOver("media/HUD/GameOver.png")
+		HUD_GameOver("media/HUD/GameOver_V2.png")
 		//Explosion
 	//	ex_klein("media/ex/ex_klein.png"),
 	//	ex_mittel("media/ex/ex_mittel.png"),
@@ -351,6 +365,8 @@ public:
 		}
 		// Score
 		myfont.draw_text("Score:" + to_string(spieler_1.Get_Score()), 0, 20, 4, Score_x_scale, Score_y_scale, Gosu::Color::BLACK);
+		//Highscore
+		myfont.draw_text("Topscore:" + to_string(Highscore), 0, 40, 4, Score_x_scale, Score_y_scale, Gosu::Color::BLACK);
 
 		//HUD Not_Paused 
 
@@ -438,6 +454,7 @@ public:
 					// Wenn leben =0 Game Over
 					if (spieler_1.Get_Leben() <= 0) {
 						welt.GameOver = true;
+						
 					}
 				}
 
@@ -457,7 +474,34 @@ public:
 			}
 
 			if (Gosu::Input::down(Gosu::KB_ESCAPE)) {
+				ofstream outputFile(score_file); //File öffnen
+				if (outputFile.is_open()) { // Hat das öffnen der Datei geklappt ? 
+
+
+					//Abfrage ob neuer Score > Alter Highscore
+					if(Highscore < spieler_1.Get_Score()){
+					outputFile << spieler_1.Get_Score() << endl; //Schreiben in Datei 
+					outputFile.close();// File schließen
+					}
+					else {	// Alten Highscore in Datei schreiben falls neuer Score zu wenig
+						outputFile << Highscore << endl; 
+						outputFile.close();// File schließen
+					}
+				}
+				else {
+					cout << "Fehler beim Öffnen der Datei zum Schreiben." << endl;
+				}
+
+
+
 				close(); // Beendet das Spiel.
+			}
+			//Neues Spiel kann mit "N" gestartet werden.
+			if (Gosu::Input::down(Gosu::KB_N))
+			{
+				spieler_1.Set_Score_to_Zero();
+				spieler_1.Max_Leben();
+				welt.GameOver = false;
 			}
 
 
@@ -472,6 +516,18 @@ public:
 // C++ Hauptprogramm
 int main()
 {
+	// Score auslesen:
+
+	ifstream inputFile(score_file); 
+
+	if (!inputFile.is_open()) {
+		cout << "Fehler beim init des Scores"; 
+	}
+	
+	inputFile >> Highscore; // Daten auf Highscore speichern 
+	inputFile.close();
+	
+
 	GameWindow window;
 	window.show();
 	
