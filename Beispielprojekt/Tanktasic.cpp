@@ -242,6 +242,7 @@ public:
 	Hindernis stein_5;
 	vector<Hindernis> SteinListe;
 	Gosu::Image Tank1;
+	Gosu::Image Tank2;
 	//ein Welt Objekt wird erzeugt
 	Welt welt;
 
@@ -305,10 +306,13 @@ public:
 		welt(5, 937.0, 899.0),
 		//Spieler  ,	
 		spieler_1(3,281,694,0.1,0.5,5),
+		
 		//Hintergrund
 		Bild("media/road_V2.png"), y(0.0),
 		//Spieler
-		Tank1("media/Panzer_Neu_resized.png"), myfont(20),
+		Tank1("media/Panzer_Neu_resized.png"),
+		Tank2("media/Panzer_Neu_resized_V2.png"),
+		myfont(20),
 		//Gegenstände
 		Stein1("media/Barrel-Stein.png"),
 		Stein2("media/Barrel-Wasser-Stein.png"),
@@ -433,7 +437,7 @@ public:
 		//ex_klein.draw(ex_klein1.x_pos, ex_klein1.y_pos, 2, ex_klein1.w_scale(), ex_klein1.h_scale());
 	
 
-		
+		Tank2.draw(spieler_1.x_pos, screen_height - (spieler_1.hoehe * spieler_1.h_scale()), 1, spieler_1.w_scale(), spieler_1.h_scale());
 
 	}
 
