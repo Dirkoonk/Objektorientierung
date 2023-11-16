@@ -136,6 +136,12 @@ public:
 	void Ein_Leben_Weg() {
 		leben--;
 	}
+	void Max_Leben() {
+		leben = 3;
+	}
+	void Set_Score_to_Zero() {
+		score = 0;
+	}
 
 	//std::vector<Kugel> kugelList; //Liste von Kugeln
 
@@ -435,6 +441,7 @@ public:
 					// Wenn leben =0 Game Over
 					if (spieler_1.Get_Leben() <= 0) {
 						welt.GameOver = true;
+						
 					}
 				}
 
@@ -455,6 +462,13 @@ public:
 
 			if (Gosu::Input::down(Gosu::KB_ESCAPE)) {
 				close(); // Beendet das Spiel.
+			}
+			//Neues Spiel kann mit "N" gestartet werden.
+			if (Gosu::Input::down(Gosu::KB_N))
+			{
+				spieler_1.Set_Score_to_Zero();
+				spieler_1.Max_Leben();
+				welt.GameOver = false;
 			}
 
 
