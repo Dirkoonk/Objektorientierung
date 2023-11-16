@@ -95,7 +95,7 @@ public:
 		//x < other.x + other.width && x + width > other.x && y < other.y + other.height && y + height > other.y
 		//((abs(x_pos - stein.x_pos) - (r_breite() / 2) - (stein.r_breite() / 2)) <= 0)&& ((stein.y_pos+ stein.r_hoehe()) >= (screen_height - r_hoehe()))
 			stein.x_pos = rand() % (screen_width - (this->breite / 2));
-			stein.y_pos = 0;
+			stein.y_pos = -r_hoehe();
 			return true;
 		}
 		return false;
@@ -171,7 +171,7 @@ public:
 		
 		if (this->y_pos > screen_height) {
 			this->x_pos = Gosu::random(0, screen_width-breite);
-			this->y_pos = 0.0;
+			this->y_pos = -r_hoehe();
 		}
 		
 		}
@@ -193,7 +193,7 @@ public:
 		this->h_faktor = h_faktor;
 		srand(time(0));
 		this->x_pos = rand() % (screen_width-(int(this->r_breite())));
-		this->y_pos = 0;
+		this->y_pos = -r_hoehe();
 	}
 
 
