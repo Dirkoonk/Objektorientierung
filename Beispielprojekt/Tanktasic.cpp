@@ -42,10 +42,13 @@ class Welt {
 			}
 		}
 		Welt() {
+			//Spielgeschwindigkeit
 			speed = 5;
+
 			bild_h = 602.0;
 			bild_w = 899.0;
 			GameOver = false;
+			//Sound-Steuerung Variablen
 			Start = false;
 			Motor = false; 
 			
@@ -117,6 +120,7 @@ float angle;
 class Spieler : public Objekte{
 public: 
 	
+	int angel = 0; 
 
 	void move() {
 		if( ( Gosu::Input::down(Gosu::KB_A) || Gosu::Input::down(Gosu::KB_LEFT) )  && !(x_pos <= 0) ){
@@ -124,6 +128,20 @@ public:
 		}
 		if( ( Gosu::Input::down(Gosu::KB_D) || Gosu::Input::down(Gosu::KB_RIGHT) ) && !(x_pos >= screen_width - breite * w_scale()) ){
 			x_pos = x_pos + vel_x;
+		}
+	}
+	void rotate() {
+		if ((Gosu::Input::down(Gosu::KB_W) || Gosu::Input::down(Gosu::KB_UP)) && !(x_pos <= 0)) {
+			if (angel <= 25) {
+				angel = angel + 1;
+			}
+			
+		}
+		if ((Gosu::Input::down(Gosu::KB_S) || Gosu::Input::down(Gosu::KB_DOWN)) && !(x_pos >= screen_width - breite * w_scale())) {
+			if(angel >= -25){ 
+				angel = angel - 1; 
+			}
+			
 		}
 	}
 	Spieler() {
@@ -232,7 +250,7 @@ class GameWindow : public Gosu::Window
 
 	
 public:
-	int Time = Gosu::milliseconds();
+	
 	//Spieler erstellen
     Spieler spieler_1;
 	//Steine erstellen
@@ -242,7 +260,9 @@ public:
 	Hindernis stein_4;
 	Hindernis stein_5;
 	vector<Hindernis> SteinListe;
+
 	Gosu::Image Tank1;
+	Gosu::Image Tank_Rohr; 
 	//ein Welt Objekt wird erzeugt
 	Welt welt;
 
@@ -309,9 +329,13 @@ public:
 		
 		//Hintergrund
 		Bild("media/road_V2.png"), y(0.0),
+
 		//Spieler
-		Tank1("media/Panzer_Neu_resized.png")
-		, myfont(20),
+		Tank1("media/Tank/Panzer_Grun.png"),
+		Tank_Rohr("media/Tank/Panzer_Grun_Rohr.png"),
+
+		//Für den Score Text
+		myfont(20),
 		//Gegenstände
 		Stein1("media/Barrel-Stein.png"),
 		Stein2("media/Barrel-Wasser-Stein.png"),
@@ -374,11 +398,12 @@ public:
 		Bild.draw(0.0, welt.y - screen_height + 5, 0.0, welt.scale_w(), welt.scale_h());
 
 		//	position Panzer   //damit Panzer auf X-Achse ganz zu sehen ist 
-		Tank1.draw(spieler_1.x_pos, screen_height - (spieler_1.hoehe * spieler_1.h_scale()), 1, spieler_1.w_scale(),spieler_1.h_scale());
+		Tank1.draw(spieler_1.x_pos, screen_height - (spieler_1.hoehe * spieler_1.h_scale()), 2, spieler_1.w_scale(),spieler_1.h_scale());
+		Tank_Rohr.draw_rot(spieler_1.x_pos+(38*welt.scale_w()), (screen_height - (spieler_1.hoehe * spieler_1.h_scale())) + (140*welt.scale_h()), 2, spieler_1.angel, 0.5, 0.5, spieler_1.w_scale(), spieler_1.h_scale());
 
 		//Gegenstände
 		Stein1.draw(stein_1.x_pos, stein_1.y_pos, 2, stein_1.w_scale(), stein_1.h_scale());
-
+		
 		//Schwierigkeit erhöhen
 		if (spieler_1.Get_Score() > 3000) {
 			Stein2.draw(stein_2.x_pos, stein_2.y_pos, 2, stein_2.w_scale(), stein_2.h_scale());
@@ -466,6 +491,7 @@ public:
 				
 
 				spieler_1.move();
+				spieler_1.rotate(); 
 
 				stein_1.move(welt.Get_Speed());
 				
