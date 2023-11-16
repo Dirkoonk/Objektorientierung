@@ -279,32 +279,34 @@ public:
 	Gosu::Image Hud_V3HP_Paused;
 	Gosu::Image Hud_V3HP_NON_Paused;
 	Gosu::Image HUD_GameOver;
+	Gosu::Image HUD_Paused;
+	Gosu::Image HUD_Score_Erweiterung;
 
 	//Skalierung des Scores 
 	double Score_x_scale = screen_width / 600; // 200 = gewünschte Score Größe x Wert 
 	double Score_y_scale = screen_height / 600;  // 50 gewünschte Score Höhe y Wert 
 
 	GameWindow()
-		: Window(screen_width, screen_height),
+		: Window(screen_width, screen_height,true),
 		//Welt
-		welt(5, 602.0, 899.0),
+		welt(5, 937.0, 899.0),
 		//Spieler  ,	
 		spieler_1(3,281,694,0.1,0.5,5),
 		//Hintergrund
-		Bild("media/road.png"), y(0.0),
+		Bild("media/road_V2.png"), y(0.0),
 		//Spieler
-		Tank1("media/tank.png"), myfont(20),
+		Tank1("media/Panzer_Neu_resized.png"), myfont(20),
 		//Gegenstände
 		Stein1("media/Barrel-Stein.png"),
-		Stein2("media/Barrel-Stein.png"),
-		Stein3("media/stein.png"),
-		Stein4("media/stein.png"),
-		Stein5("media/stein.png"),
+		Stein2("media/Barrel-Wasser-Stein.png"),
+		Stein3("media/Barrel-Stein.png"),
+		Stein4("media/Barrel-Wasser-Stein.png"),
+		Stein5("media/Barrel-Stein.png"),
 		stein_1(281, 694, 0.025, 0.15),
-		stein_2(281, 694, 0.025, 0.05),
-		stein_3(281, 694, 0.025, 0.05),
-		stein_4(281, 694, 0.025, 0.05),
-		stein_5(281, 694, 0.025, 0.05),
+		stein_2(281, 694, 0.025, 0.15),
+		stein_3(281, 694, 0.025, 0.15),
+		stein_4(281, 694, 0.025, 0.15),
+		stein_5(281, 694, 0.025, 0.15),
 		//Kugel("media/kugel.png"),
 	//HUD
 		Hud_MaxHP_Paused("media/HUD/Hud_MaxHP_Paused.png"),
@@ -313,7 +315,9 @@ public:
 		Hud_V7HP_NON_Paused("media/HUD/Hud_V7HP_NON_Paused.png"),
 		Hud_V3HP_Paused("media/HUD/Hud_V3HP_Paused.png"),
 		Hud_V3HP_NON_Paused("media/HUD/Hud_V3HP_NON_Paused.png"),
-		HUD_GameOver("media/HUD/GameOver_V2.png")
+		HUD_GameOver("media/HUD/GameOver_V2.png"),
+		HUD_Paused("media/HUD/HUD_Paused_Screen.png"),
+		HUD_Score_Erweiterung("media/HUD/HUD_Score_Erweiterung.png")
 		//Explosion
 	//	ex_klein("media/ex/ex_klein.png"),
 	//	ex_mittel("media/ex/ex_mittel.png"),
@@ -364,30 +368,43 @@ public:
 			Stein5.draw(stein_5.x_pos, stein_5.y_pos, 2, stein_5.w_scale(), stein_5.h_scale());
 		}
 		// Score
-		myfont.draw_text("Score:" + to_string(spieler_1.Get_Score()), 0, 20, 4, Score_x_scale, Score_y_scale, Gosu::Color::BLACK);
+		myfont.draw_text("Score:" + to_string(spieler_1.Get_Score()), 0, 20, 5, Score_x_scale, Score_y_scale, Gosu::Color::BLACK);
 		//Highscore
-		myfont.draw_text("Topscore:" + to_string(Highscore), 0, 40, 4, Score_x_scale, Score_y_scale, Gosu::Color::BLACK);
+		myfont.draw_text("Topscore:" + to_string(Highscore), 0, 40, 5, Score_x_scale, Score_y_scale, Gosu::Color::BLACK);
 
 		//HUD Not_Paused 
 
-		if (!isPaused && !welt.GameOver && spieler_1.Get_Leben() >= 3){ // Hud Max LP Non Paused
-			Hud_MaxHP_NON_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h());}
+		if (!isPaused && !welt.GameOver && spieler_1.Get_Leben() >= 3) { // Hud Max LP Non Paused
+			Hud_MaxHP_NON_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h()+0.5);
+			HUD_Score_Erweiterung.draw(0.0, 0.0, 4, welt.scale_w(), welt.scale_h()+0.5);
+		}
 		else if (!isPaused && !welt.GameOver && spieler_1.Get_Leben() == 2) { // Hud V7 LP Non Paused
-			Hud_V7HP_NON_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h());}
+			Hud_V7HP_NON_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h()+0.5);
+			HUD_Score_Erweiterung.draw(0.0, 0.0, 4, welt.scale_w(), welt.scale_h()+0.5);
+		}
 		else if (!isPaused && !welt.GameOver && spieler_1.Get_Leben() == 1) { // Hud V3 LP Non Paused
-			Hud_V3HP_NON_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h());}
+			Hud_V3HP_NON_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h()+0.5);
+			HUD_Score_Erweiterung.draw(0.0, 0.0, 4, welt.scale_w(), welt.scale_h()+0.5);
+		}
 
 		//HUD Paused 
 
-		else if (isPaused && !welt.GameOver && spieler_1.Get_Leben() >= 3) { // Hud Max LP Non Paused
-			Hud_MaxHP_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h());}
+		else if (isPaused && !welt.GameOver && spieler_1.Get_Leben() >= 3) { // Hud Max LP  Paused
+			Hud_MaxHP_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h()+0.5);
+			HUD_Score_Erweiterung.draw(0.0, 0.0, 4, welt.scale_w(), welt.scale_h()+0.5);
+			HUD_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h());}
 		else if (isPaused && !welt.GameOver && spieler_1.Get_Leben() == 2) { //Hud V7 LP Paused
-			Hud_V7HP_Paused.draw(0.0, 0.0, 0.0, welt.scale_w(), welt.scale_h());}
-		else if (isPaused && !welt.GameOver && spieler_1.Get_Leben() == 1) { // Hud V3 LP Non Paused
-			Hud_V3HP_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h());}
+			Hud_V7HP_Paused.draw(0.0, 0.0, 0.0, welt.scale_w(), welt.scale_h()+0.5);
+			HUD_Score_Erweiterung.draw(0.0, 0.0, 4, welt.scale_w(), welt.scale_h()+0.5);
+			HUD_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h());}
+		else if (isPaused && !welt.GameOver && spieler_1.Get_Leben() == 1) { // Hud V3 LP  Paused
+			Hud_V3HP_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h()+0.5);
+			HUD_Score_Erweiterung.draw(0.0, 0.0, 4, welt.scale_w(), welt.scale_h()+0.5);
+			HUD_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h());}
 
 		//HUD Game-Over
 		else if (welt.GameOver) { //Game Over HUD
+			HUD_Score_Erweiterung.draw(0.0, 0.0, 4, welt.scale_w(), welt.scale_h()+0.5);
 			HUD_GameOver.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h());}
 
 		//Explosion
