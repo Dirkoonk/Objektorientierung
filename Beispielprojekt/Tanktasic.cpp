@@ -460,8 +460,10 @@ public:
 					welt.Motor = true;
 					break;
 				}
-
-				welt.Set_Welt_Speed(5);
+				if (spieler_1.Get_Score() < 15000) {
+					welt.Set_Welt_Speed(5);
+				}
+				
 
 				spieler_1.move();
 
@@ -476,9 +478,12 @@ public:
 				if (spieler_1.Get_Score() > 10000) {
 					stein_4.move(welt.Get_Speed());
 				}
-				if (spieler_1.Get_Score() > 15000) {
+				if (spieler_1.Get_Score() > 15000&& spieler_1.Get_Score() < 30000) {
 					stein_5.move(welt.Get_Speed());
 					welt.Set_Welt_Speed(7);
+				}
+				if (spieler_1.Get_Score() > 30000) {
+					welt.Set_Welt_Speed(10);
 				}
 				
 				// Bewegung der Welt
