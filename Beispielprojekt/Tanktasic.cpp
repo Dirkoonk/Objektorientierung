@@ -20,6 +20,7 @@ int screen_height = Gosu::screen_height();
 string score_file = "media/Score"; 
 int Highscore; 
 
+
 class Welt {
 	public: 
 		bool GameOver;
@@ -449,7 +450,7 @@ public:
 		}
 
 
-			if (!isPaused && !welt.GameOver && Gosu::milliseconds() >= 6000) {
+			if (!isPaused && !welt.GameOver && Gosu::milliseconds() >= (6000)) {
 				
 				// Führen Sie das Spiel-Update nur aus, wenn es nicht pausiert ist.
 				// Bewegung Spieler
@@ -547,7 +548,7 @@ public:
 				else {
 					cout << "Fehler beim Öffnen der Datei zum Schreiben." << endl;
 				}
-
+			
 
 
 				close(); // Beendet das Spiel.
@@ -558,8 +559,10 @@ public:
 				spieler_1.Set_Score_to_Zero();
 				spieler_1.Max_Leben();
 				welt.GameOver = false;
-				welt.Start = false; 
-				welt.Motor = false; 
+				
+				 
+			
+				
 			}
 
 
