@@ -6,6 +6,7 @@
 #include <format>
 #include <thread>
 #include <chrono>
+#include <Gosu/Audio.hpp>
 
 using namespace std; 
 
@@ -23,6 +24,8 @@ class Welt {
 	public: 
 		bool GameOver;
 		double y;
+		bool Start;
+		bool Motor; 
 		
 		double scale_h() {
 			return screen_height / bild_h;
@@ -42,6 +45,8 @@ class Welt {
 			bild_h = 602.0;
 			bild_w = 899.0;
 			GameOver = false;
+			Start = false;
+			Motor = false; 
 			
 		}
 		Welt(int speed,double hoehe,double breite) {
@@ -49,6 +54,8 @@ class Welt {
 			bild_h = hoehe;
 			bild_w = breite;
 			GameOver = false;
+			Start = false; 
+			Motor = false;
 		}
 		void Set_Welt_Speed(int speed) {
 			this->speed = speed;
@@ -222,7 +229,9 @@ class GameWindow : public Gosu::Window
 
 	
 
+	
 public:
+	int Time = Gosu::milliseconds();
 	//Spieler erstellen
     Spieler spieler_1;
 	//Steine erstellen
@@ -263,6 +272,10 @@ public:
 	Gosu::Image ex_klein;
 	Gosu::Image ex_mittel;
 	Gosu::Image ex_gross;
+
+	//Sounds
+	Gosu::Sample Panzer_Engine_Startup;
+	Gosu::Sample Panzer_Engine_Drive;
 
 	//Gosu::Image Kugel;
 
@@ -317,7 +330,14 @@ public:
 		Hud_V3HP_NON_Paused("media/HUD/Hud_V3HP_NON_Paused.png"),
 		HUD_GameOver("media/HUD/GameOver_V2.png"),
 		HUD_Paused("media/HUD/HUD_Paused_Screen.png"),
-		HUD_Score_Erweiterung("media/HUD/HUD_Score_Erweiterung.png")
+		HUD_Score_Erweiterung("media/HUD/HUD_Score_Erweiterung.png"),
+
+
+	//Sound
+		Panzer_Engine_Startup("media/Sound/sound_Panzer_Startup.wav"),
+		Panzer_Engine_Drive("media/Sound/sound_Panzer_Drive.wav")
+
+
 		//Explosion
 	//	ex_klein("media/ex/ex_klein.png"),
 	//	ex_mittel("media/ex/ex_mittel.png"),
@@ -333,6 +353,8 @@ public:
 		SteinListe.push_back(stein_3);
 		SteinListe.push_back(stein_4);
 		SteinListe.push_back(stein_5);
+
+		
 	}
 	
 	
@@ -409,19 +431,33 @@ public:
 
 		//Explosion
 		//ex_klein.draw(ex_klein1.x_pos, ex_klein1.y_pos, 2, ex_klein1.w_scale(), ex_klein1.h_scale());
-			
+	
+
 		
-		
+
 	}
 
 	// Wird 60x pro Sekunde aufgerufen
 	void update() override
 	{
+		while (!welt.Start) {
+			Panzer_Engine_Startup.play();
+			welt.Start = true; 
+			break; 
+		}
 
 
-			if (!isPaused && !welt.GameOver) {
+			if (!isPaused && !welt.GameOver && Gosu::milliseconds() >= 6000) {
+				
 				// Führen Sie das Spiel-Update nur aus, wenn es nicht pausiert ist.
 				// Bewegung Spieler
+				
+				while (!welt.Motor) {
+					Panzer_Engine_Drive.play(1.0, 1.0, true);
+					welt.Motor = true;
+					break;
+				}
+
 				welt.Set_Welt_Speed(5);
 
 				spieler_1.move();
@@ -519,12 +555,14 @@ public:
 				spieler_1.Set_Score_to_Zero();
 				spieler_1.Max_Leben();
 				welt.GameOver = false;
+				welt.Start = false; 
+				welt.Motor = false; 
 			}
 
 
 		}
 
-
+	
 	
 };
 
@@ -533,6 +571,8 @@ public:
 // C++ Hauptprogramm
 int main()
 {
+	
+
 	// Score auslesen:
 
 	ifstream inputFile(score_file); 
@@ -546,6 +586,8 @@ int main()
 	
 
 	GameWindow window;
+	
 	window.show();
+	
 	
 }
