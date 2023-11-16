@@ -88,8 +88,9 @@ public:
 	} 
 
 	bool is_hit(Objekte& stein) {
-
-	if ((abs(x_pos - stein.x_pos) - (r_breite()/2 ) - (stein.r_breite()/2 ) <= 0) && (stein.y_pos>=(screen_height-r_hoehe()))) {
+		int Stein_X_M = stein.x_pos + stein.r_breite()/2;
+		int Spieler_X_M = x_pos + r_breite()/2;
+	if (((abs(Spieler_X_M - Stein_X_M) - (r_breite() / 2) - (stein.r_breite() / 2)) <= 0)&& ((stein.y_pos+ stein.r_hoehe()) >= (screen_height - r_hoehe()))) {
 
 			stein.x_pos = rand() % (screen_width - (this->breite / 2));
 			stein.y_pos = 0;
@@ -141,6 +142,12 @@ public:
 	}
 	void Ein_Leben_Weg() {
 		leben--;
+	}
+	void Max_Leben() {
+		leben = 3;
+	}
+	void Set_Score_to_Zero() {
+		score = 0;
 	}
 
 	//std::vector<Kugel> kugelList; //Liste von Kugeln
@@ -445,6 +452,7 @@ public:
 					// Wenn leben =0 Game Over
 					if (spieler_1.Get_Leben() <= 0) {
 						welt.GameOver = true;
+						
 					}
 				}
 
@@ -485,6 +493,13 @@ public:
 
 
 				close(); // Beendet das Spiel.
+			}
+			//Neues Spiel kann mit "N" gestartet werden.
+			if (Gosu::Input::down(Gosu::KB_N))
+			{
+				spieler_1.Set_Score_to_Zero();
+				spieler_1.Max_Leben();
+				welt.GameOver = false;
 			}
 
 
