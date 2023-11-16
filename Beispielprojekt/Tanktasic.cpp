@@ -74,10 +74,10 @@ public:
 	
 
 	double w_scale() {
-		return screen_width / breite* w_faktor;
+		return (screen_width / breite)* w_faktor;
 	}
 	double h_scale() {
-		return screen_height / hoehe* h_faktor;
+		return (screen_height / hoehe)* h_faktor;
 	}
 
 	double r_breite() {
@@ -214,7 +214,9 @@ class GameWindow : public Gosu::Window
 	
 
 public:
+	//Spieler erstellen
     Spieler spieler_1;
+	//Steine erstellen
 	Hindernis stein_1;
 	Hindernis stein_2;
 	Hindernis stein_3;
@@ -312,9 +314,7 @@ public:
 	{
 		set_caption("Tanktastic");
 		
-
-
-
+		//versuch die Steine in eine Liste zu packen
 		SteinListe.push_back(stein_1);
 		SteinListe.push_back(stein_2);
 		SteinListe.push_back(stein_3);
@@ -415,7 +415,8 @@ public:
 					stein_5.move(welt.Get_Speed());
 				}
 				
-				
+				// Bewegung der Welt
+
 				welt.move();
 
 
@@ -432,13 +433,7 @@ public:
 				// Score hochzählen
 				spieler_1.Score_Hoch(welt.Get_Speed());
 
-				// Bewegung der Welt
-
-
-
-
-
-
+				
 				if (spieler_1.is_hit(stein_1)|| spieler_1.is_hit(stein_2)|| spieler_1.is_hit(stein_3)|| spieler_1.is_hit(stein_4)|| spieler_1.is_hit(stein_5)) {
 					// Leben abziehen 
 					spieler_1.Ein_Leben_Weg(); 
