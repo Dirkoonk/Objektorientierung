@@ -422,8 +422,10 @@ public:
 			if (!isPaused && !welt.GameOver) {
 				// Führen Sie das Spiel-Update nur aus, wenn es nicht pausiert ist.
 				// Bewegung Spieler
-				welt.Set_Welt_Speed(5);
-
+				
+				if (spieler_1.Get_Score() <15000) {
+					welt.Set_Welt_Speed(5);
+				}
 				spieler_1.move();
 
 				stein_1.move(welt.Get_Speed());
@@ -439,6 +441,7 @@ public:
 				}
 				if (spieler_1.Get_Score() > 15000) {
 					stein_5.move(welt.Get_Speed());
+					welt.Set_Welt_Speed(7);
 				}
 				
 				// Bewegung der Welt
