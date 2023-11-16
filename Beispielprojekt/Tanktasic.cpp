@@ -294,7 +294,7 @@ public:
 		Tank1("media/tank.png"), myfont(20),
 		//Gegenstände
 		Stein1("media/Barrel-Stein.png"),
-		Stein2("media/stein.png"),
+		Stein2("media/Barrel-Stein.png"),
 		Stein3("media/stein.png"),
 		Stein4("media/stein.png"),
 		Stein5("media/stein.png"),
@@ -386,7 +386,7 @@ public:
 
 		//HUD Game-Over
 		else if (welt.GameOver) { //Game Over HUD
-			HUD_GameOver.draw(0.0, 0.0, 0.0, welt.scale_w(), welt.scale_h());}
+			HUD_GameOver.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h());}
 
 		//Explosion
 		//ex_klein.draw(ex_klein1.x_pos, ex_klein1.y_pos, 2, ex_klein1.w_scale(), ex_klein1.h_scale());
