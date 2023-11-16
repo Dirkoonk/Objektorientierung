@@ -82,8 +82,9 @@ public:
 	} 
 
 	bool is_hit(Objekte& stein) {
-
-	if ((abs(x_pos - stein.x_pos) - (r_breite()/2 ) - (stein.r_breite()/2 ) <= 0) && (stein.y_pos>=(screen_height-r_hoehe()))) {
+		int Stein_X_M = stein.x_pos + stein.r_breite()/2;
+		int Spieler_X_M = x_pos + r_breite()/2;
+	if (((abs(Spieler_X_M - Stein_X_M) - (r_breite() / 2) - (stein.r_breite() / 2)) <= 0)&& ((stein.y_pos+ stein.r_hoehe()) >= (screen_height - r_hoehe()))) {
 
 			stein.x_pos = rand() % (screen_width - (this->breite / 2));
 			stein.y_pos = 0;
