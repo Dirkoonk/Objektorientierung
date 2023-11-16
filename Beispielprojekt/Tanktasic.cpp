@@ -9,17 +9,15 @@ using namespace std;
 
 
 //Start Variablen Global (Performance)
-bool GameOver = false; 
-int  screen_width = Gosu::screen_width(); 
-double  screen_height = Gosu::screen_height(); 
+ 
+int screen_width = Gosu::screen_width();
+int screen_height = Gosu::screen_height();
 
 class Welt {
 	public: 
-		double speed;
-		double bild_h;
-		double bild_w;
+		bool GameOver;
 		double y;
-
+		
 		double scale_h() {
 			return screen_height / bild_h;
 		}
@@ -33,9 +31,29 @@ class Welt {
 				y = 0.0;
 			}
 		}
-		
-		
-
+		Welt() {
+			speed = 5;
+			bild_h = 602.0;
+			bild_w = 899.0;
+			GameOver = false;
+			
+		}
+		Welt(int speed,double hoehe,double breite) {
+			this->speed = speed;
+			bild_h = hoehe;
+			bild_w = breite;
+			GameOver = false;
+		}
+		void Set_Welt_Speed(int speed) {
+			this->speed = speed;
+		}
+		int Get_Speed() {
+			return this->speed;
+		}
+	private:
+		double speed;
+		double bild_h;
+		double bild_w;
 };
 
 class Objekte {
@@ -43,7 +61,6 @@ public:
 	// Positionen vom Objekt
 	int x_pos , vel_x; // Position + Geschwindigkeit 
 	int y_pos, vel_y; // Position + Geschwindigkeit 
-	float angle; 
 	int breite;
 	int hoehe;
 	double w_faktor;
@@ -51,10 +68,10 @@ public:
 	
 
 	double w_scale() {
-		return screen_width / breite * w_faktor;
+		return 1;//screen_width / breite* w_faktor;
 	}
 	double h_scale() {
-		return screen_height / hoehe * h_faktor;
+		return 1;//screen_height / hoehe* h_faktor;
 	}
 
 	double r_breite() {
@@ -74,14 +91,15 @@ public:
 		}
 		return false;
 	}
+private:
+float angle; 
 	
 };
 
 
 class Spieler : public Objekte{
 public: 
-	int score; // Gibt den Score an 
-	int leben = 0; 
+	
 
 	void move() {
 		if( ( Gosu::Input::down(Gosu::KB_A) || Gosu::Input::down(Gosu::KB_LEFT) )  && !(x_pos <= 0) ){
@@ -91,20 +109,46 @@ public:
 			x_pos = x_pos + vel_x;
 		}
 	}
-
-	
+	Spieler() {
+		score = 0;
+		leben = 3;
+		this->x_pos = screen_width / 2 - (this->breite * this->w_scale()) / 2; // Panzer startet in der Mitte des Screen
+	}
+	Spieler(int StartLeben,int breite,int hoehe,double w_faktor ,double h_faktor,int vel_x) {
+		score = 0;
+		leben = StartLeben;
+		this->breite = breite;
+		this->hoehe = hoehe;
+		this->h_faktor = h_faktor;
+		this->w_faktor = w_faktor;
+		this->vel_x = vel_x; 
+		this->x_pos = screen_width / 2 - (this->breite * this->w_scale()) / 2; // Panzer startet in der Mitte des Screen
+	}
+	int Get_Score() {
+		return score;
+	}
+	int Get_Leben() {
+		return leben;
+	}
+	void Score_Hoch(int WeltSpeed) {
+		score = score + WeltSpeed;
+	}
+	void Ein_Leben_Weg() {
+		leben--;
+	}
 
 	//std::vector<Kugel> kugelList; //Liste von Kugeln
 
 private:
-	
+	int score; // Gibt den Score an 
+	int leben; 
 	
 
 };
 class Hindernis : public Objekte {// Steht nur im Weg 
 public:
 	
-	void move(double& welt_speed) {
+	void move(double welt_speed) {
 
 		if (this->y_pos <= screen_height) {
 			this->y_pos = y_pos + welt_speed;
@@ -223,6 +267,10 @@ public:
 
 	GameWindow()
 		: Window(screen_width, screen_height, true),
+		//Welt
+		welt(5, 602.0, 899.0),
+		//Spieler  ,	
+		spieler_1(3,281,694,0.1,0.5,5),
 		//Hintergrund
 		Bild("media/road.png"), y(0.0),
 		//Spieler
@@ -255,18 +303,9 @@ public:
 		
 	{
 		set_caption("Tanktastic");
-		//Spieler daten werden festgelegt
-		spieler_1.breite = 281;//breie Bild
-		spieler_1.hoehe = 694;//höhe Bild
-		spieler_1.h_faktor = 0.37;
-		spieler_1.w_faktor = 0.1;
-		spieler_1.vel_x = 5; // Panzer Geschwindigkeit
-		spieler_1.x_pos = screen_width / 2 - (spieler_1.breite * spieler_1.w_scale())/2; // Panzer startet in der Mitte des Screen
-		spieler_1.leben = 3; // Anzahl Leben (Maximal 3 wegen HUD) 
+		
 
-		welt.speed = 5;
-		welt.bild_h = 602.0;
-		welt.bild_w = 899.0;
+
 
 		SteinListe.push_back(stein_1);
 		SteinListe.push_back(stein_2);
@@ -289,47 +328,47 @@ public:
 		Bild.draw(0.0, welt.y - screen_height + 5, 0.0, welt.scale_w(), welt.scale_h());
 
 		//	position Panzer   //damit Panzer auf X-Achse ganz zu sehen ist 
-		Tank1.draw(spieler_1.x_pos, screen_height - (spieler_1.hoehe * spieler_1.h_scale()), 1, spieler_1.w_scale(), spieler_1.h_scale());
+		Tank1.draw(spieler_1.x_pos, screen_height - (spieler_1.hoehe * spieler_1.h_scale()), 1, spieler_1.w_scale(),spieler_1.h_scale());
 
 		//Gegenstände
 		Stein1.draw(stein_1.x_pos, stein_1.y_pos, 2, stein_1.w_scale(), stein_1.h_scale());
 
 		//Schwierigkeit erhöhen
-		if (spieler_1.score > 3000) {
+		if (spieler_1.Get_Score() > 3000) {
 			Stein2.draw(stein_2.x_pos, stein_2.y_pos, 2, stein_2.w_scale(), stein_2.h_scale());
 		}
-		if (spieler_1.score > 5000) {
+		if (spieler_1.Get_Score() > 5000) {
 			Stein3.draw(stein_3.x_pos, stein_3.y_pos, 2, stein_3.w_scale(), stein_3.h_scale());
 		}
-		if (spieler_1.score > 10000) {
+		if (spieler_1.Get_Score() > 10000) {
 			Stein4.draw(stein_4.x_pos, stein_4.y_pos, 2, stein_4.w_scale(), stein_4.h_scale());
 		}
-		if (spieler_1.score > 15000) {
+		if (spieler_1.Get_Score() > 15000) {
 			Stein5.draw(stein_5.x_pos, stein_5.y_pos, 2, stein_5.w_scale(), stein_5.h_scale());
 		}
 		// Score
-		myfont.draw_text("Score:" + to_string(spieler_1.score), 0, 20, 4, Score_x_scale, Score_y_scale, Gosu::Color::BLACK);
+		myfont.draw_text("Score:" + to_string(spieler_1.Get_Score()), 0, 20, 4, Score_x_scale, Score_y_scale, Gosu::Color::BLACK);
 
 		//HUD Not_Paused 
 
-		if (!isPaused && !GameOver && spieler_1.leben >= 3){ // Hud Max LP Non Paused
+		if (!isPaused && !welt.GameOver && spieler_1.Get_Leben() >= 3){ // Hud Max LP Non Paused
 			Hud_MaxHP_NON_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h());}
-		else if (!isPaused && !GameOver && spieler_1.leben == 2) { // Hud V7 LP Non Paused
+		else if (!isPaused && !welt.GameOver && spieler_1.Get_Leben() == 2) { // Hud V7 LP Non Paused
 			Hud_V7HP_NON_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h());}
-		else if (!isPaused && !GameOver && spieler_1.leben == 1) { // Hud V3 LP Non Paused
+		else if (!isPaused && !welt.GameOver && spieler_1.Get_Leben() == 1) { // Hud V3 LP Non Paused
 			Hud_V3HP_NON_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h());}
 
 		//HUD Paused 
 
-		else if (isPaused && !GameOver && spieler_1.leben >= 3) { // Hud Max LP Non Paused
+		else if (isPaused && !welt.GameOver && spieler_1.Get_Leben() >= 3) { // Hud Max LP Non Paused
 			Hud_MaxHP_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h());}
-		else if (isPaused && !GameOver && spieler_1.leben == 2) { //Hud V7 LP Paused
+		else if (isPaused && !welt.GameOver && spieler_1.Get_Leben() == 2) { //Hud V7 LP Paused
 			Hud_V7HP_Paused.draw(0.0, 0.0, 0.0, welt.scale_w(), welt.scale_h());}
-		else if (isPaused && !GameOver && spieler_1.leben == 1) { // Hud V3 LP Non Paused
+		else if (isPaused && !welt.GameOver && spieler_1.Get_Leben() == 1) { // Hud V3 LP Non Paused
 			Hud_V3HP_Paused.draw(0.0, 0.0, 3, welt.scale_w(), welt.scale_h());}
 
 		//HUD Game-Over
-		else if (GameOver) { //Game Over HUD
+		else if (welt.GameOver) { //Game Over HUD
 			HUD_GameOver.draw(0.0, 0.0, 0.0, welt.scale_w(), welt.scale_h());}
 
 		//Explosion
@@ -344,26 +383,26 @@ public:
 	{
 
 
-			if (!isPaused && !GameOver) {
+			if (!isPaused && !welt.GameOver) {
 				// Führen Sie das Spiel-Update nur aus, wenn es nicht pausiert ist.
 				// Bewegung Spieler
-				welt.speed = 5;
+				welt.Set_Welt_Speed(5);
 
 				spieler_1.move();
 
-				stein_1.move(welt.speed);
+				stein_1.move(welt.Get_Speed());
 				
-				if (spieler_1.score > 3000) {
-					stein_2.move(welt.speed);
+				if (spieler_1.Get_Score() > 3000) {
+					stein_2.move(welt.Get_Speed());
 				}
-				if (spieler_1.score > 5000) {
-					stein_3.move(welt.speed);
+				if (spieler_1.Get_Score() > 5000) {
+					stein_3.move(welt.Get_Speed());
 				}
-				if (spieler_1.score > 10000) {
-					stein_4.move(welt.speed);
+				if (spieler_1.Get_Score() > 10000) {
+					stein_4.move(welt.Get_Speed());
 				}
-				if (spieler_1.score > 15000) {
-					stein_5.move(welt.speed);
+				if (spieler_1.Get_Score() > 15000) {
+					stein_5.move(welt.Get_Speed());
 				}
 				
 				
@@ -381,7 +420,7 @@ public:
 				}
 
 				// Score hochzählen
-				spieler_1.score = spieler_1.score + welt.speed;
+				spieler_1.Score_Hoch(welt.Get_Speed());
 
 				// Bewegung der Welt
 
@@ -392,22 +431,22 @@ public:
 
 				if (spieler_1.is_hit(stein_1)|| spieler_1.is_hit(stein_2)|| spieler_1.is_hit(stein_3)|| spieler_1.is_hit(stein_4)|| spieler_1.is_hit(stein_5)) {
 					// Leben abziehen 
-					spieler_1.leben = spieler_1.leben -1; 
+					spieler_1.Ein_Leben_Weg(); 
 
 					//Gegenstand weg Porten
 					stein_1.x_pos = Gosu::random(0, screen_width);
 					stein_1.y_pos = 0;
 
 					// Wenn leben =0 Game Over
-					if (spieler_1.leben <= 0) {
-						GameOver = true;
+					if (spieler_1.Get_Leben() <= 0) {
+						welt.GameOver = true;
 					}
 				}
 
 			}
-			else if (!GameOver)
+			else if (!welt.GameOver)
 			{
-				welt.speed = 0;
+				welt.Set_Welt_Speed(0);
 				if (Gosu::Input::down(Gosu::KB_P) && !isPauseKeyDown) // Prüfen Taste "P", um das Spiel fortzusetzen
 				{
 					isPaused = false;
