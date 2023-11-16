@@ -484,6 +484,7 @@ public:
 				}
 				if (spieler_1.Get_Score() > 30000) {
 					welt.Set_Welt_Speed(10);
+					stein_5.move(welt.Get_Speed());
 				}
 				
 				// Bewegung der Welt
