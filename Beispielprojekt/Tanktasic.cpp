@@ -2,6 +2,8 @@
 #include <Gosu/AutoLink.hpp>
 #include <string.h>
 #include <iostream>
+#include <fstream>
+#include <format>
 #include <thread>
 #include <chrono>
 
@@ -12,6 +14,10 @@ using namespace std;
  
 int screen_width = Gosu::screen_width();
 int screen_height = Gosu::screen_height();
+
+// Textdatei und Variable für den Highscore
+string score_file = "media/Score"; 
+int Highscore; 
 
 class Welt {
 	public: 
@@ -68,10 +74,10 @@ public:
 	
 
 	double w_scale() {
-		return 1;//screen_width / breite* w_faktor;
+		return screen_width / breite* w_faktor;
 	}
 	double h_scale() {
-		return 1;//screen_height / hoehe* h_faktor;
+		return screen_height / hoehe* h_faktor;
 	}
 
 	double r_breite() {
@@ -203,6 +209,8 @@ class Gegner : public Objekte{ // Kann schießen (evtl. Nur am Bildrand)
 
 class GameWindow : public Gosu::Window
 {
+
+
 	
 
 public:
@@ -348,6 +356,8 @@ public:
 		}
 		// Score
 		myfont.draw_text("Score:" + to_string(spieler_1.Get_Score()), 0, 20, 4, Score_x_scale, Score_y_scale, Gosu::Color::BLACK);
+		//Highscore
+		myfont.draw_text("Topscore:" + to_string(Highscore), 0, 40, 4, Score_x_scale, Score_y_scale, Gosu::Color::BLACK);
 
 		//HUD Not_Paused 
 
@@ -459,6 +469,26 @@ public:
 			}
 
 			if (Gosu::Input::down(Gosu::KB_ESCAPE)) {
+				ofstream outputFile(score_file); //File öffnen
+				if (outputFile.is_open()) { // Hat das öffnen der Datei geklappt ? 
+
+
+					//Abfrage ob neuer Score > Alter Highscore
+					if(Highscore < spieler_1.Get_Score()){
+					outputFile << spieler_1.Get_Score() << endl; //Schreiben in Datei 
+					outputFile.close();// File schließen
+					}
+					else {	// Alten Highscore in Datei schreiben falls neuer Score zu wenig
+						outputFile << Highscore << endl; 
+						outputFile.close();// File schließen
+					}
+				}
+				else {
+					cout << "Fehler beim Öffnen der Datei zum Schreiben." << endl;
+				}
+
+
+
 				close(); // Beendet das Spiel.
 			}
 
@@ -474,6 +504,18 @@ public:
 // C++ Hauptprogramm
 int main()
 {
+	// Score auslesen:
+
+	ifstream inputFile(score_file); 
+
+	if (!inputFile.is_open()) {
+		cout << "Fehler beim init des Scores"; 
+	}
+	
+	inputFile >> Highscore; // Daten auf Highscore speichern 
+	inputFile.close();
+	
+
 	GameWindow window;
 	window.show();
 	
