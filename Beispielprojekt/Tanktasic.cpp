@@ -293,12 +293,12 @@ public:
 		//Spieler
 		Tank1("media/tank.png"), myfont(20),
 		//Gegenstände
-		Stein1("media/stein.png"),
+		Stein1("media/Barrel-Stein.png"),
 		Stein2("media/stein.png"),
 		Stein3("media/stein.png"),
 		Stein4("media/stein.png"),
 		Stein5("media/stein.png"),
-		stein_1(281, 694, 0.025, 0.05),
+		stein_1(281, 694, 0.025, 0.15),
 		stein_2(281, 694, 0.025, 0.05),
 		stein_3(281, 694, 0.025, 0.05),
 		stein_4(281, 694, 0.025, 0.05),
@@ -311,7 +311,7 @@ public:
 		Hud_V7HP_NON_Paused("media/HUD/Hud_V7HP_NON_Paused.png"),
 		Hud_V3HP_Paused("media/HUD/Hud_V3HP_Paused.png"),
 		Hud_V3HP_NON_Paused("media/HUD/Hud_V3HP_NON_Paused.png"),
-		HUD_GameOver("media/HUD/GameOver.png")
+		HUD_GameOver("media/HUD/GameOver_V2.png")
 		//Explosion
 	//	ex_klein("media/ex/ex_klein.png"),
 	//	ex_mittel("media/ex/ex_mittel.png"),
