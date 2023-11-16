@@ -283,7 +283,7 @@ public:
 	double Score_y_scale = screen_height / 600;  // 50 gewünschte Score Höhe y Wert 
 
 	GameWindow()
-		: Window(screen_width, screen_height, true),
+		: Window(screen_width, screen_height),
 		//Welt
 		welt(5, 602.0, 899.0),
 		//Spieler  ,	
