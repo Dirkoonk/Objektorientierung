@@ -131,13 +131,13 @@ public:
 		}
 	}
 	void rotate() {
-		if ((Gosu::Input::down(Gosu::KB_W) || Gosu::Input::down(Gosu::KB_UP)) && !(x_pos <= 0)) {
+		if (Gosu::Input::down(Gosu::KB_W) || Gosu::Input::down(Gosu::KB_UP))  {
 			if (angel <= 25) {
 				angel = angel + 1;
 			}
 			
 		}
-		if ((Gosu::Input::down(Gosu::KB_S) || Gosu::Input::down(Gosu::KB_DOWN)) && !(x_pos >= screen_width - breite * w_scale())) {
+		if (Gosu::Input::down(Gosu::KB_S) || Gosu::Input::down(Gosu::KB_DOWN)) {
 			if(angel >= -25){ 
 				angel = angel - 1; 
 			}
@@ -399,7 +399,7 @@ public:
 
 		//	position Panzer   //damit Panzer auf X-Achse ganz zu sehen ist 
 		Tank1.draw(spieler_1.x_pos, screen_height - (spieler_1.hoehe * spieler_1.h_scale()), 2, spieler_1.w_scale(),spieler_1.h_scale());
-		Tank_Rohr.draw_rot(spieler_1.x_pos+(38*welt.scale_w()), (screen_height - (spieler_1.hoehe * spieler_1.h_scale())) + (140*welt.scale_h()), 2, spieler_1.angel, 0.5, 0.5, spieler_1.w_scale(), spieler_1.h_scale());
+		Tank_Rohr.draw_rot(spieler_1.x_pos+(38*welt.scale_w()), (screen_height - (spieler_1.hoehe * spieler_1.h_scale())) + (160*welt.scale_h()), 2, spieler_1.angel, 0.5, 0.5, spieler_1.w_scale(), spieler_1.h_scale());
 
 		//Gegenstände
 		Stein1.draw(stein_1.x_pos, stein_1.y_pos, 2, stein_1.w_scale(), stein_1.h_scale());
@@ -590,6 +590,7 @@ public:
 			{
 				spieler_1.Set_Score_to_Zero();
 				spieler_1.Max_Leben();
+				spieler_1.angel = 0;
 				welt.GameOver = false;
 				
 				 
