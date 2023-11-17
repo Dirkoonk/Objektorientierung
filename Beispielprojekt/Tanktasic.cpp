@@ -399,7 +399,7 @@ public:
 
 		//	position Panzer   //damit Panzer auf X-Achse ganz zu sehen ist 
 		Tank1.draw(spieler_1.x_pos, screen_height - (spieler_1.hoehe * spieler_1.h_scale()), 2, spieler_1.w_scale(),spieler_1.h_scale());
-		Tank_Rohr.draw_rot(spieler_1.x_pos+(38*welt.scale_w()), (screen_height - (spieler_1.hoehe * spieler_1.h_scale())) + (160*welt.scale_h()), 2, spieler_1.angel, 0.5, 0.5, spieler_1.w_scale(), spieler_1.h_scale());
+		Tank_Rohr.draw_rot(spieler_1.x_pos+(38*welt.scale_w()), (screen_height - (spieler_1.hoehe * spieler_1.h_scale())) + (200*welt.scale_h()), 2, spieler_1.angel, 0.5, 0.5, spieler_1.w_scale(), spieler_1.h_scale());
 
 		//Gegenstände
 		Stein1.draw(stein_1.x_pos, stein_1.y_pos, 2, stein_1.w_scale(), stein_1.h_scale());
